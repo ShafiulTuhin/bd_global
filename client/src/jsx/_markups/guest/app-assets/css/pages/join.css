@@ -1,0 +1,23 @@
+#cointcNav .navbar-nav .nav-item .nav-link {
+	color: #FFFFFF99 !important;
+}
+
+.join-nav-bg {
+	background-image: url("../../images/nav/join-01.png");
+	width: 100%;
+	height: 100%;
+}
+
+.join-nav-bg ul li a {
+	color: #FFF !important;
+	font-weight: 700;
+}
+
+.create-account-section {
+	box-shadow: 0px 0px 3px 1px #0000008C;
+	border-radius: 7px;
+}
+
+.hr-line-rgb {
+	color: #C4C4C4;
+}

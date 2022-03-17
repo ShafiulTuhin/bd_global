@@ -1,0 +1,35 @@
+.navbar {
+  padding: 0.5rem 1rem;
+}
+
+#cointcNav .navbar-nav .nav-item .nav-link {
+  color: #FFFFFF99 !important;
+}
+
+.img-fluid {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.join_nav_bg {
+  background-image: url("../../app-assets/images/nav/join-01.png");
+}
+
+.btn_color {
+  background-color: #F8A48D !important;
+  border-color: #F8A48D !important;
+  border-radius: 25px !important;
+  text-transform: uppercase !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+}
+
+.navbar.navbar-dark.bg-blue {
+  background-color: #111D33 !important;
+}
+
+.header4.my-border {
+  border-bottom: 2px solid #C4C4C4;
+}
+/*# sourceMappingURL=header.css.map */

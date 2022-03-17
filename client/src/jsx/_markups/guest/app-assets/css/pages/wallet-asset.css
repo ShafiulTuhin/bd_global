@@ -1,0 +1,64 @@
+.tb-border {
+    border: 2px solid #c4c4c4;
+    border-radius: 10px;
+    padding: 15px 30px;
+}
+
+.tb-border table thead tr {
+    background-color: #EEEEEE;
+}
+
+.tb-border table thead tr th {
+    border: 0 !important;
+}
+
+.table td {
+    border-top: none !important;
+    border-bottom: 2px solid #c4c4c4;
+}
+
+.custom-tab.active {
+    background: transparent !important;
+    color: white !important;
+    border-bottom: 2px solid yellow !important;
+    border-radius: 0px !important;
+}
+
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #4E4E4E;
+    background-color: #fff;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #007bff;
+}
+
+.nav-tabs .nav-link {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border: none;
+}
+
+.btc-asset {
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.55);
+    padding: 15px;
+}
+
+.table th {
+    background-color: #FAFAFA;
+}
+
+.btc-right .form-control {
+    border-color: #007bff !important;
+}
+
+.btc-right .input-group-text {
+    background-color: #007bff !important;
+     border: 1px solid #007bff !important;
+}
+
+.info-section {
+    background-color: #F5F5F5;
+    padding: 30px 15px;
+}

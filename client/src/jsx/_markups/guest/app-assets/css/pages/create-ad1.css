@@ -1,0 +1,58 @@
+.sell-buy {
+  background: #FFFFFF;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.55);
+}
+
+.pm-details {
+  border: 1px solid #777 !important;
+  background-color: #FFF !important;
+  padding: 15px;
+}
+
+table {
+  width: 100%;
+}
+
+.pm-details table tr th,table tr td {
+  padding-bottom: 10px !important;
+}
+
+.pm-details table tr th {
+  color: #0059FF !important;
+}
+
+.pm-details table tr td input {
+  width: 90% !important;
+  background-color: #C4C4C4;
+  border: none;
+}
+
+.hr-dash {
+  border-top: 1px dashed #C4C4C4;
+}
+
+.pwt .dropdown-toggle::after {
+  margin-left: 2.1em !important;
+}
+
+.pwt-title p {
+  color: #000;
+  font-weight: bold;
+}
+
+.pwt .dropdown button {
+  border: 1px solid #C4C4C4;
+  background-color: #FFF;
+  color: #000;
+  font-weight: bold;
+}
+
+.pwt .dropdown-menu a {
+  font-weight: bold;
+}
+
+
+.btn-ref {
+  background-color: #FFC700;
+  color: #4E4E4E;
+}

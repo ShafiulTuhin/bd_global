@@ -1,0 +1,26 @@
+{
+  "name": "cointc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "lil-armstrong <oebong1@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "server-dev": "yarn --cwd ./server dev",
+    "server-build": "yarn --cwd ./server build",
+    "server-test": "yarn --cwd ./server test",
+    "client-dev": "yarn --cwd ./client dev",
+    "client-build": "yarn --cwd ./client build",
+    "client-test": "yarn --cwd ./client dev test",
+    "install-all": "yarn --cwd server install && yarn --cwd client install"
+  },
+  "dependencies": {
+    "@galenjs/influx-query-filter": "^1.0.0",
+    "pg": "^8.7.1",
+    "react-csv": "^2.0.3",
+    "react-datepicker": "^4.5.0",
+    "react-qr-code": "^2.0.3"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.3.0"
+  }
+}

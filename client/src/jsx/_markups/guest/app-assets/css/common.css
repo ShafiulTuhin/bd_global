@@ -1,0 +1,211 @@
+/* reset */
+body,
+div,
+header,
+footer,
+nav,
+section,
+article,
+aside,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+ol,
+dl,
+dt,
+dd,
+p,
+table,
+th,
+tr,
+th,
+td,
+form,
+fieldset,
+legend,
+figure {
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+fieldset,
+img {
+  border: 0 none;
+}
+img {
+  width: 100%;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+input,
+select,
+textarea,
+button {
+  padding: 0;
+  margin: 0;
+  font-size: 100%;
+  vertical-align: middle;
+  border: 0 none;
+}
+button {
+  border: 1px solid #666;
+  background-color: transparent;
+  cursor: pointer;
+}
+a,
+a:hover,
+a:active {
+  text-decoration: none;
+}
+address,
+em {
+  font-style: normal;
+}
+strong {
+  font-weight: normal;
+}
+label {
+  margin: 0;
+}
+
+/* base */
+body {
+  color: #555555;
+  font-size: 15px;
+  line-height: 1.6;
+  background-color: #ffffff;
+  min-height: 100%;
+}
+a {
+  color: #555555;
+}
+a:hover {
+  /* color: #85c4f9; */
+  color: #0059ff;
+}
+
+.hidden {
+  width: 0;
+  height: 0;
+  font-size: 0;
+  line-height: 0;
+  text-indent: -9999px;
+}
+.clear:after {
+  content: "";
+  display: block;
+  clear: both;
+}
+/* .inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+} */
+
+*::selection {
+  background-color: #85c4f9;
+  color: #fff;
+}
+
+.pc {
+  display: block;
+}
+
+.m {
+  display: none;
+}
+
+@media screen and (max-width: 992px) {
+  .pc {
+    display: none;
+  }
+
+  .m {
+    display: block;
+  }
+}
+
+.pc_img {
+  display: block;
+}
+
+.m_img {
+  display: none;
+}
+
+@media screen and (max-width: 578px) {
+  .pc_img {
+    display: none;
+  }
+
+  .m_img {
+    display: block;
+  }
+}
+
+html {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+.wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.outliner {
+  outline: 2px dashed #547;
+  border: 1px dashed red;
+}
+
+.boxed {
+  display: block;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.truncate {
+  display: block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.divider-list {
+  display: flex;
+  gap: 4px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.linkable:hover{
+  color: #0059ff;
+  cursor: pointer;
+}
+.linkable{
+  font-weight: 500;
+}

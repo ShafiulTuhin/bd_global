@@ -1,0 +1,27 @@
+{
+    "typeAcquisition": {
+        "include": [
+            "jest",
+            "faker"
+        ],
+    },
+    "include": [
+        "server"
+    ],
+    "exclude": [
+        "node_modules/*",
+        "**/node_modules/*",
+        ".git",
+        "**/build/*",
+        "**/views/*",
+        "yarn-error.log",
+        "yarn.lock",
+        "package.json",
+        ".*",
+        "client"
+    ],
+    "compilerOptions": {
+        "module": "commonJS",
+        "target": "es6"
+    }
+}

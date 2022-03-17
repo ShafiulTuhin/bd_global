@@ -1,0 +1,26 @@
+.support-element{
+	background: #FFFFFF;
+	box-shadow: inset 0px 0px 3px 1px rgba(0, 0, 0, 0.55);
+	border-radius: 6px;
+}
+
+.support-title p {
+	color: #000 !important;
+	font-weight: 500;
+}
+
+.our-service-title h4 {
+	color: #0054A1 !important;
+}
+
+.text-black {
+	color: #000 !important;
+}
+
+.border-1 {
+	border: 1px solid #000;
+}
+
+.ear-title h5 {
+	color: #0054A1;
+}
