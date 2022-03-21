@@ -32,7 +32,7 @@ export const Header3 = () => {
       <div className="inner d-flex clear">
         <LogoContainer>
           <a href="/">
-            <img src={logo_icon} alt-="CoinTC" />
+            <img src={logo_icon} alt-="P2PElim" />
           </a>
         </LogoContainer>
         <nav>

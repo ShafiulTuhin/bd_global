@@ -62,7 +62,7 @@ export const Header = () => {
         <LogoContainer>
           <Link to={routeMap?.home}>
             <h1 className="hidden">메인메뉴</h1>
-            <img src={logo} alt-="CoinTC" />
+            <img src={logo} alt-="P2PElim" />
           </Link>
         </LogoContainer>
         <nav className="page_header__nav">

@@ -99,7 +99,7 @@ export const Footer2 = () => {
       <hr />
       <div className="col-12">
         <p className="wow animate__animated  fadeInUp" data-wow-delay="0.8s">
-          COPYRIGHT. 2021. CoinTC ALL RIGHTS RESERVED.
+          COPYRIGHT. 2021. P2PElim ALL RIGHTS RESERVED.
         </p>
       </div>
     </footer>

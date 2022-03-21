@@ -156,7 +156,7 @@ const SideBar = () => {
 
         <div className="copyright">
           <p>
-            <strong>CoinTC </strong> © {t("2021 All Rights Reserved")}
+            <strong>P2PElim </strong> © {t("2021 All Rights Reserved")}
           </p>
           {/* <p className="fs-12">
                 Made with <span className="heart"></span> by DexignZone

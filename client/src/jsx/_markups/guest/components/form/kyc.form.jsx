@@ -945,7 +945,7 @@ function VerifyGoogleAuth(formData) {
 
   useEffect(() => {
     const secret = speakeasy.generateSecret({
-      name: "COINTC",
+      name: "P2PElim",
     });
     qrcode.toDataURL(secret.otpauth_url, (err, data) => {
       setqrdata(data);
