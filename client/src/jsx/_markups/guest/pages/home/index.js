@@ -81,7 +81,7 @@ export default function Home() {
                   className="wow animate__animated fadeInDown"
                   data-wow-delay="0.3s"
                 >
-                  {t("Buy & Sell your Cryptocurrency on CoinTC!")}
+                  {t("Buy & Sell your Cryptocurrency on P2PElim!")}
                 </h5>
                 <p className="wow animate__animated fadeInDown">
                   {t(
@@ -137,7 +137,7 @@ export default function Home() {
         <div className="container">
           <div className="customer_service_title text-white wow fadeInLeft">
             <h3 className="mb-1 text-white h2">
-              {t("CoinTC is a P2P exchange for everyone.")}
+              {t("P2PElim is a P2P exchange for everyone.")}
             </h3>
             <p>{t("It supports global currency.")}</p>
           </div>
@@ -151,7 +151,7 @@ export default function Home() {
                   </h6>
                   <p className="card-text">
                     {t(
-                      "CoinTC supports rapid response to problems 365 days a year."
+                      "P2PElim supports rapid response to problems 365 days a year."
                     )}
                   </p>
                 </div>
@@ -166,7 +166,7 @@ export default function Home() {
                   </h6>
                   <p className="card-text">
                     {t(
-                      "CoinTC protects your funds with both centralized and decentralized methods."
+                      "P2PElim protects your funds with both centralized and decentralized methods."
                     )}
                   </p>
                 </div>
@@ -193,7 +193,7 @@ export default function Home() {
                   <img className="mb-3 w-auto" src={comment_icon} />
                   <h6 className="card-title">{t("Trade with confidence")}</h6>
                   <p className="card-text">
-                    {t("CoinTC believes in security above everything.")}
+                    {t("P2PElim believes in security above everything.")}
                   </p>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export default function Home() {
                 {t("Trade Anytime, Anywhere")}
               </p>
               <p className="lead mb-4 text-black">
-                {t("CoinTC offer you an easy and quick way to start trading.")}
+                {t("P2PElim offer you an easy and quick way to start trading.")}
               </p>
 
               <div className="col-md-12">

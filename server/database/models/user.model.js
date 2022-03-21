@@ -572,7 +572,7 @@ module.exports = (sequelize, DataTypes) => {
               ...opts,
               confirmationLink: confirmationLink.href,
             },
-            subject: "Cointc - New account confirmation",
+            subject: "P2PElim - New account confirmation",
             to: opts?.to,
           },
           cb
@@ -926,7 +926,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {String} phone Phone number
      * @returns
      */
-    async sendSMS(message = "Welcome to CoinTC", phone) {
+    async sendSMS(message = "Welcome to P2PElim", phone) {
       phone = phone || this?.profile?.phone;
 
       if (

@@ -30,7 +30,7 @@ export const Footer = () => {
         <div className="container wow fadeInLeft">
           <div className="row">
             <div className="col-md-2 mt-md-0 mt-3">
-              <h4 className="text-left">{t("CoinTC")}</h4>
+              <h4 className="text-left">{t("P2PElim")}</h4>
               <ul className="navbar-nav">
                 <li className="nav-item">
                   <a className="nav-link d-flex align-items-center" href="#">

@@ -65,7 +65,7 @@ export default function ServiceContextProvider(props) {
         actions,
         helpers,
         useService,
-        appName: "Cointc",
+        appName: "P2PElim",
         appURL: "http://www.cointc.xyz",
         UIColors,
         socket
