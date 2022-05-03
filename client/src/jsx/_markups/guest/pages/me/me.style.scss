@@ -1,0 +1,176 @@
+.me .text-black {
+  color: #000 !important;
+}
+
+.me .my-border {
+  border-bottom: 2px solid #c4c4c4;
+}
+
+.me .my-profile,
+.me .authentication-settings,
+.me .profile-security,
+.me .confirmations,
+.me .sell-user {
+  box-shadow: 0px 0px 3px 1px #0000008c;
+  background-color: #ffffff;
+  border-radius: 6px;
+  padding: 30px;
+}
+
+.me .email-switch .switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+
+.me .email-switch .switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.me .email-switch .slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.me .email-switch .slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+}
+
+.me .email-switch input:checked + .slider {
+  background-color: #0059ff;
+}
+
+.me .email-switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196f3;
+}
+
+.me .email-switch input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+.me .email-switch .slider.round {
+  border-radius: 34px;
+}
+
+.me .email-switch .slider.round:before {
+  border-radius: 50%;
+}
+
+.me .sms-switch input:checked + .slider {
+  background-color: #eaecef;
+}
+
+.me .otp-switch input:checked + .slider {
+  background-color: #eaecef;
+}
+
+.me .authentication-settings tr th,
+.me .sell-user tr th {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dcdcdc !important;
+}
+
+.me .authentication-settings tr td,
+.me .sell-user tr td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dcdcdc !important;
+}
+
+.me .btn-change-security {
+  background-color: #f1f1f1;
+}
+
+.me .having-border {
+  border-bottom: 1px solid #0059ff;
+  color: #0059ff !important;
+}
+
+.me .btn-p2p-payment {
+  background-color: #f1f1f1;
+  color: #484d55;
+}
+
+.me .profile-security table tr td {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.me .wechat {
+  border: 1px solid #a8a8a8;
+  border-radius: 6px;
+}
+
+.me .main-wechat-header {
+  background-color: #f1f1f1;
+  padding: 15px;
+}
+
+.me .wechat table thead tr th,
+.me .wechat table tbody tr td {
+  padding: 15px;
+}
+
+.me .btn-payment-save {
+  border: 1px solid #1e1e1e;
+  color: #1e1e1e;
+  padding-left: 30px;
+  border-radius: 8px;
+  padding-right: 30px;
+}
+
+.me .payment-save {
+  padding: 15px;
+}
+
+.me .btn-bank-transfer {
+  background-color: #ffe6c1;
+}
+
+.me .info-profile {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid #888888;
+}
+
+.me .info-profile p {
+  position: absolute;
+  left: 30%;
+  bottom: 0;
+}
+
+.me input#custom-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 25px;
+}
+#me {
+  padding-bottom: 60px;
+}
+#me .container {
+  margin: 0 auto;
+  max-width: 1000px;
+}

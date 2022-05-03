@@ -1,0 +1,96 @@
+.text-black {
+	color: #000 !important;
+}
+
+.bg-sky {
+	background-color: #E5F1FD !important;
+	height: 100%;
+}
+
+.main-default-referral {
+	background-color: #FFFFFF;
+	border-radius: 6px;
+	box-shadow: 2px 2px 3px rgba(54, 54, 54, 0.25);
+}
+
+.custom-tab.active {
+    background: transparent !important;
+    color: white !important;
+    border-bottom: 2px solid yellow !important;
+    border-radius: 0px !important;
+}
+
+.nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+    color: #000000 !important;
+    background-color: #fff;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #007bff;
+}
+
+.nav-tabs .nav-link, .nav-tabs .nav-item .nav-link {
+	color: #6F6F6F;
+}
+
+.nav-tabs .nav-link {
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
+    border: none;
+}
+
+.tab-bn {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.tab-bn a {
+	border: 1px solid #B0B0B0;
+	border-radius: 10px;
+	font-weight: 700;
+}
+
+.tab-bn .active {
+	border: 1px solid #0059FF;
+	border-radius: 10px;
+	background-color: #ccdeff;
+	font-weight: 700;
+}
+
+.tab-content-bg {
+	background-color: #E5F1FD;
+}
+
+.icome-tab p {
+	color: #6F6F6F !important;
+}
+
+.btn-rank-list {
+	color: #0059FF !important;
+	background-color: rgba(0, 89, 255, 0.4);
+	border-radius: 0 !important;
+}
+
+.tab-footer p {
+	color: #4E4E4E;
+}
+
+.footer-bn a {
+	color: #AAAAAA !important;
+}
+
+.table-striped {
+	background-color: #F1F1F1 !important;
+}
+
+.table thead th {
+    border: none !important;
+}
+
+.ch-content {
+	background-color: #E5F1FD !important;
+}
+
+.ch-content p {
+	color: #6F6F6F !important	;
+}

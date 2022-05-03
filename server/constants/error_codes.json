@@ -1,0 +1,6 @@
+{
+  "ERKYC01": "ER_KYC_ID",
+  "ERKYC02": "ER_KYC_EMAIL",
+  "ERKYC03": "ER_KYC_SMS",
+  "ERKYC04": "ER_KYC_AUTH"
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title><%= subject %></title>
+    <%- include('includes/meta') %> <%- include('style/main') %>
+  </head>
+
+  <body>
+    <div>
+      <div>
+        <header class="heroHeader">
+          <div>
+            <span
+              style="
+                background: #0b5cbe;
+                border-radius: 50px;
+                height: 50px;
+                width: 50px;
+                margin: auto;
+                border: 2px solid #fff;
+                display: inline-flex;
+                justify-content: center ;
+                align-items: center;
+              "
+            >
+              <img
+                src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAYAAAAWGF8bAAAAY0lEQVQ4je3SWw2AMAyF4UlACpImCQk4ACdIQcLP0xLC2iVrzyPnufnSWymCADtwAYsKazmVGED9MREGbMCqwlrh7aFTY36KOzS0Mw9NHcBAj/Q1jY7i2ACNYwaax17o8C+9PK8tXWMmWPR7AAAAAElFTkSuQmCC"
+                alt="check"
+              />
+            </span>
+          </div>
+          <h2 class="text-2xl font-bold"><%= subject %></h2>
+        </header>
+      </div>
+
+      <p class="mb-3">Hi, <strong><%= email %></strong></p>
+
+      <div>
+        <p>Thank you for signing up with <%= companyName %></p>
+        <p>
+          Click the button below to verify your email address below.
+        </p>
+      </div>
+
+      <div class="my-10">
+        <div><%= otp %></div>
+      </div>
+    </div>
+
+    <%- include('includes/footer') %>
+  </body>
+</html>

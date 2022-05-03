@@ -1,0 +1,223 @@
+.css-1od8csl {
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    text-align: center;
+    box-shadow: 0px 2px 4px rgb(0 0 0 / 8%), 0px 0px 4px rgb(0 0 0 / 8%);
+    top: 0;
+    background-color: #fff;
+    position: relative;
+    height: 50px;
+}
+
+.css-1bgspcv {
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    display: flex;
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border: 1px solid #E6E8EA;
+    border-radius: 4px;
+    background-color: #FAFAFA;
+}
+
+.css-xbxtuo {
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    font-size: 14px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 3px;
+    font-weight: 500;
+    background-color: #02C076;
+    color: #FFFFFF;
+    box-shadow: 1px 0px 4px rgb(0 0 0 / 25%);
+}
+
+.css-yxrkwa {
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size: 14px;
+    border-radius: 3px;
+    font-weight: 500;
+    color: #1E2026;
+}
+
+.tab-coin li {
+    padding: 7px 15px;
+}
+
+.css-lalzkr {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    flex: 265 1 0%;
+    flex-direction: column;
+}
+
+.css-vurnku {
+    box-sizing: border-box;
+    margin: 0;
+    min-width: 0;
+}
+
+.css-3v2ep2 {
+    box-sizing: border-box;
+    margin: 0px 0px 8px;
+    min-width: 0px;
+    display: flex;
+    -webkit-box-align: baseline;
+    align-items: baseline;
+}
+
+.css-1v5oc77 {
+    box-sizing: border-box;
+    margin: 0px 8px 0px 0px;
+    min-width: 50px;
+    color: rgb(112, 122, 138);
+    text-align: left;
+    font-size: 12px;
+}
+
+.css-16w8hmr {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+    -webkit-box-align: baseline;
+    align-items: baseline;
+    flex-direction: column;
+}
+
+@media screen and (min-width: 1023px){
+    .css-16w8hmr {
+        flex-direction: row;
+    }
+}
+
+.css-1v5oc77 {
+    box-sizing: border-box;
+    margin: 0px 8px 0px 0px;
+    min-width: 50px;
+    color: rgb(112, 122, 138);
+    text-align: left;
+    font-size: 12px;
+}
+
+.css-vurnku1 {
+    direction: ltr;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.css-4cffwv {
+    box-sizing: border-box;
+    margin: 0px;
+    min-width: 0px;
+    display: flex;
+}
+
+/*=========================================================*/
+
+#tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+  color: #0059FF;
+  background-color: transparent;
+  border-color: transparent transparent #f3f3f3;
+  border-bottom: 3px solid #1FD872 !important;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.nav-link { 
+  color: #646464;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.nav-link {
+  border: none !important;
+}
+
+.nav-link:hover {
+    border: none;
+}
+
+.nav-tabs {
+    border: 0;
+}
+
+
+
+
+
+
+
+
+
+
+.sell-pm {
+    box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.55);
+    border-radius: 2px;
+    width: 100%;
+}
+
+.sell-table tr,th,td {
+    border: none !important;
+} 
+
+.fa-university {
+    color: #F0AE41;
+}
+
+.pmb-element,.tot-element {
+    border: 1px solid #ABABAB;
+}
+
+.pmt-details p {
+    margin-bottom: 0;
+}
+
+
+.body-header {
+    width: 50%;
+}
+
+.border-b1 {
+    border-bottom: 1px solid #646464;
+}
+
+.text-black {
+    color: #000 !important;
+}
+
+.ask-faq-bn {
+    background-color: #FBFBFB !important;
+    padding: 15px;
+    border-top: 1px solid #646464;
+}
+
+.drop-file-content {
+    border: 1px dashed #989898;
+}
+
+.upload-doc {
+    background-color: #E3EEF1;
+    border-radius: 3px;
+}
+
+.progress {
+    background-color: #9A9A9A;
+    height: 8px !important;
+}

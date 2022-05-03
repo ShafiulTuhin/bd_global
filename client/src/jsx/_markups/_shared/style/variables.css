@@ -1,0 +1,8 @@
+:root {
+  --toastify-font-family: "Poppins", sans-serif;
+  --toastify-toast-min-height: auto;
+  --font-family: "Poppins", sans-serif;
+  --primary-color: #0059ff;
+  --tertiary-color: rgb(3, 48, 143);
+  --secondary-color: rgb(133, 196, 249);
+}

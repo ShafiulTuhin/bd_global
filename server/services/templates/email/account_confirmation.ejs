@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Account confirmation</title>
+    <%- include('includes/meta') %>
+    <style>
+      html,
+      body,
+      div,
+      span,
+      applet,
+      object,
+      iframe,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p,
+      blockquote,
+      pre,
+      a,
+      abbr,
+      acronym,
+      address,
+      big,
+      cite,
+      code,
+      del,
+      dfn,
+      em,
+      img,
+      ins,
+      kbd,
+      q,
+      s,
+      samp,
+      small,
+      strike,
+      strong,
+      sub,
+      sup,
+      tt,
+      var,
+      b,
+      u,
+      i,
+      center,
+      dl,
+      dt,
+      dd,
+      ol,
+      ul,
+      li,
+      fieldset,
+      form,
+      label,
+      legend,
+      table,
+      caption,
+      tbody,
+      tfoot,
+      thead,
+      tr,
+      th,
+      td,
+      article,
+      aside,
+      canvas,
+      details,
+      embed,
+      figure,
+      figcaption,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      output,
+      ruby,
+      section,
+      summary,
+      time,
+      mark,
+      audio,
+      video {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        font-size: 100%;
+        font: inherit;
+        vertical-align: baseline;
+      }
+      /* HTML5 display-role reset for older browsers */
+      article,
+      aside,
+      details,
+      figcaption,
+      figure,
+      footer,
+      header,
+      hgroup,
+      menu,
+      nav,
+      section {
+        display: block;
+      }
+      body {
+        line-height: 1;
+      }
+      ol,
+      ul {
+        list-style: none;
+      }
+      blockquote,
+      q {
+        quotes: none;
+      }
+      blockquote:before,
+      blockquote:after,
+      q:before,
+      q:after {
+        content: "";
+        content: none;
+      }
+      table {
+        border-collapse: collapse;
+        border-spacing: 0;
+      }
+
+      /* END CSS RESET*/
+      * {
+        padding: 0;
+        margin: o;
+        box-sizing: 0;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+
+  <body
+    style="
+    font-family: Roboto, Segoe UI, Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--default-color);
+    font-size: var(--sm);
+    background-color: #efefef;;
+     max-width: 768px;
+    margin: 0 auto;
+    letter-spacing: 0.034em;
+    line-height: 2;
+    font-size: 14px;"
+  >
+    <div>
+      <header
+        style="
+	display: block;
+	padding: 30px 16px;
+	background-color: #f6f6f6;
+	text-align: center;
+    "
+      >
+        <h2
+          class="text-2xl font-bold"
+          style="font-size: 1.5rem; font-weight: bold; line-height: 24px"
+        >
+          Account confirmation
+        </h2>
+      </header>
+
+      <section style="padding: 30px">
+        <p class="mb-3">Hi,</p>
+
+        <div>
+          <p>
+            Thank you for signing up with <%= companyName %>. Click the button
+            below to verify your email address below.
+          </p>
+          <% if(extraComment) {%> <%_ extraComment _%>
+          <div
+            style="padding: 14px;
+    background-color: white;
+    border-radius: 8px;
+    margin: 12px auto;
+    text-align: center;
+    font-weight: bolder;
+    font-size: 2rem;"
+          >
+            <%= password %>
+          </div>
+          <%} %>
+        </div>
+
+        <div class="my-10">
+          <a href="<%= confirmationLink %>" style="<%- include('style/cta') %>">
+            Click to confirm account
+          </a>
+          <p class="my-3 text-center" style="font-size: 12px">
+            <small class="block">
+              If for any reason the above button is not clickable, please copy
+              the link below and paste it in a browser.
+            </small>
+            <a href="<%= confirmationLink %>"><%= confirmationLink %></a>
+          </p>
+        </div>
+        <%- include('includes/footer') %>
+      </section>
+    </div>
+  </body>
+</html>

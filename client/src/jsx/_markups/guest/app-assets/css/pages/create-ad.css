@@ -1,0 +1,88 @@
+#myProgress {
+  width: 100px;
+  background-color: grey;
+}
+
+#myBar {
+  width: 0%;
+  height: 5px;
+  background-color: green;
+}
+
+.sell-buy .nav-item {
+  width: 50%;
+}
+
+.text-black {
+  color: #000 !important;
+}
+
+.sell-buy {
+  background: #FFFFFF;
+  box-shadow: 0px 0px 3px 1px rgba(0, 0, 0, 0.55);
+}
+
+.sell-buy .nav-item .active {
+  background-color: #C4C4C4;
+}
+
+.px-15 {
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+}
+
+.left-bn,.right-bn {
+  border: 1px solid #8B8B8B;
+  border-radius: 0 !important;
+  background-color: #FFF !important;
+}
+
+.dropdown-menu.show {
+  width: 100%;
+}
+
+.text-cny {
+  color: #005A9B;
+}
+
+.mpq .form-group {
+  margin-bottom: 10px !important;
+}
+
+.pmt .form-control {
+  border-right: none !important;
+}
+
+::-webkit-input-placeholder { 
+  color: #000 !important;
+  font-weight: 500 !important; 
+}
+
+:-moz-placeholder { 
+  color: #000 !important;
+  font-weight: 500 !important; 
+}
+
+::-moz-placeholder { 
+  color: #000 !important;
+  font-weight: 500 !important; 
+}
+
+:-ms-input-placeholder { 
+  color: #000 !important;
+  font-weight: 500 !important; 
+}
+
+.input-right .input-group-text {
+  background-color: transparent !important;
+  border-left: none !important;
+  font-weight: 500 !important;
+  color: #000 !important;
+}
+
+.next-bn {
+  background-color: #0059FF !important;
+  color: #FFF !important;
+  font-weight: bold;
+  border-radius: 0 !important;
+}
