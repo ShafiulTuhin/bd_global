@@ -127,7 +127,7 @@ module.exports = {
 
 
     if (!companyWallet)
-      throw new Error(`P2PElim does not have wallet for ${from.currency}.`);
+      throw new Error(`CoinTC does not have wallet for ${from.currency}.`);
 
 
 

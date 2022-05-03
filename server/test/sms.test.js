@@ -1,7 +1,7 @@
 require("dotenv").config();
 const twilio = require('twilio');
 
-async function sendSMS(message = "Welcome to P2PElim",phone) {
+async function sendSMS(message = "Welcome to CoinTC",phone) {
   let phone_ = phone || this?.profile?.phone;
 
   if(![process.env.TWILLOW_ACCOUNTS_ID, process.env.TWILLOW_AUTH_TOKEN].every(v=>v)){

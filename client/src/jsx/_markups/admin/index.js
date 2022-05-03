@@ -46,7 +46,7 @@ function AdminMarkup() {
 
   useEffect(() => {
     document.body.dir = currentLanguage.dir || "ltr";
-    document.title = t("P2PElim");
+    document.title = t("CoinTC");
   }, [currentLanguage, t]);
 
   return services ? (

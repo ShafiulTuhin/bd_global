@@ -618,7 +618,7 @@ module.exports = (server) => {
               recipientName: user?.profile?.pname,
               resetLink: reset_link,
             },
-            subject: "P2PElim - Reset Password",
+            subject: "Cointc - Reset Password",
             to: email,
           },
           (err, info) => {

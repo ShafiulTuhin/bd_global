@@ -77,6 +77,7 @@ async function main() {
       generateETHWallet(),
       generateBNBWallet(),
       generateXRPWallet(),
+      generateTRONWallet(),
     ]).then((data) => {
       let generatedKeys = {};
       data.forEach((key) => {
@@ -129,6 +130,21 @@ async function generateETHWallet() {
 
   return {
     ETH: { ...wallet, testnet, masterAddress },
+    //USDT: { ...wallet, testnet, masterAddress },
+  };
+}
+async function generateTRONWallet() {
+  let wallet = await tatum.generateWallet(tatum.Currency.TRON, testnet);
+
+  let masterAddress = await tatum.generateAddressFromXPub(
+    tatum.Currency.TRON,
+    testnet,
+    wallet.xpub,
+    0
+  );
+
+  return {
+    TRON: { ...wallet, testnet, masterAddress },
     USDT: { ...wallet, testnet, masterAddress },
   };
 }

@@ -30,7 +30,13 @@ class XRPWallet extends WalletInterface {
 	}
 
 
-
+	async getWalletBalance(){
+		const wallet_balance = {
+		  availableBalance: 0,
+		}
+		return wallet_balance;
+	  }
+	  
 	async getTransactionFee({
 		amount,
 		from,
@@ -322,7 +328,7 @@ class XRPWallet extends WalletInterface {
 						quantity: Number(amountToTransfer),
 						type: TRANSACTION_TYPES.DEBIT,
 						status: TRANSACTION_STATUS.ACTIVE,
-						reason: TRANSACTION_REASON.WITHDRAWAL,
+						reason: TRANSACTION_REASON.MANAGER_WITHDRAWAL,
 						metadata: {
 							txId,
 							completed
@@ -365,8 +371,6 @@ class XRPWallet extends WalletInterface {
 		destinationTag = null
 	}) {
 
-		console.log("withdrawToAddress XRP call : ");
-
 		let {
 			secret,
 			signatureId,
@@ -389,7 +393,6 @@ class XRPWallet extends WalletInterface {
 				to: address,
 				destinationTag: Number(destinationTag),
 				sourceTag: Number(this.wallet.destination_tag)
-
 			})
 
 
@@ -402,41 +405,28 @@ class XRPWallet extends WalletInterface {
 					txId,
 					completed
 				}
-			}, {
-				transaction: t
-			})
-
-
-
-			let chargeWallets, from;
-			chargeWallets = {};
-
-			
-			// return chargeWallets;
+			}, { transaction: t })
 
 
 			let ref = uuidv4();
-
-			chargeWallets =
-				(await this.wallet.getWalletsForTransactionFee({
-					amount
-				})) || {};
-
-			console.log("chargeWallets : ",chargeWallets);	
-			await this.wallet.createTransaction({	
-				reference: ref,
-				quantity: Number(chargeWallets.WITHDRAWAL.fee),
-				type: TRANSACTION_TYPES.DEBIT,
-				status: TRANSACTION_STATUS.ACTIVE,
-				reason: TRANSACTION_REASON.FEES,
-			}, {
-				transaction: t
-			});
-
+			let chargeWallets = (await this.wallet.getWalletsForTransactionFee({ amount })) || {};
+			const fee_charge = (chargeWallets.WITHDRAWAL && chargeWallets.WITHDRAWAL.fee) ? chargeWallets.WITHDRAWAL.fee : 0;
+			if(fee_charge > 0){
+				await this.wallet.createTransaction(
+				{
+					reference: ref,
+					quantity: Number(fee_charge),
+					type: TRANSACTION_TYPES.DEBIT,
+					status: TRANSACTION_STATUS.ACTIVE,
+					reason: TRANSACTION_REASON.FEES,
+				},
+				{ transaction: t }
+				);
+			}
 
 			await this.wallet.updateBalance()
+			console.log(`${amount} withdraw to ${address} completed`, { id, txId, completed })
 			return transaction
-
 		})
 
 	}

@@ -21,6 +21,13 @@ class ETHWallet extends WalletInterface {
   }
 
 
+  async getWalletBalance(){
+    const wallet_balance = {
+      availableBalance: 0,
+    }
+    return wallet_balance;
+  }
+  
   async getTransactionFee({ amount, from, to }) {
 
     let { gasLimit, gasPrice } = await this.Tatum.ethEstimateGas({
@@ -119,24 +126,25 @@ class ETHWallet extends WalletInterface {
     let newDepositamount = Number(availableBalance) - (this.wallet.last_tatum_balance || 0)
 
     // track amount successfully transfered
-    let amountToTransfer = Number(availableBalance) - this.wallet.total_success_deposit
+    let amountToTransfer = Number(availableBalance) - (this.wallet.total_success_deposit + this.wallet.total_fee_pay + this.wallet.total_token_fee_pay)
 
     let res = {}
-
+   
     if (Number(amountToTransfer)) {
 
       try {
         let fee = await this.getTransactionFee({
           from: this.wallet.address,
           to: masterAddress,
-          amount: amountToTransfer
-        })
-        if (fee > amountToTransfer) throw new Error("amountToTransfer not enough for transaction fee")
+          amount: Number(amountToTransfer).toFixed(8),
+        });
+
+        if (Number(fee) > Number(amountToTransfer)) throw new Error("amountToTransfer not enough for transaction fee")
         let privateKey = await this.Tatum.generatePrivateKeyFromMnemonic(this.Tatum.Currency.ETH, this.testnet, mnemonic, this.wallet.derivation_key)
         res = await this.Tatum.sendEthOrErc20Transaction(
           {
 
-            amount: Number((amountToTransfer - fee) * 0.95).toFixed(8),
+            amount: Number((amountToTransfer - fee)).toFixed(8),
             to: masterAddress,
             currency: this.wallet.currency,
             from: this.wallet.address,
@@ -148,11 +156,15 @@ class ETHWallet extends WalletInterface {
             })
           }
         )
-        this.wallet.total_success_deposit = this.wallet.total_success_deposit + parseFloat(Number((amountToTransfer - fee) * 0.95).toFixed(8))
-        console.log(`deposit of ${Number((amountToTransfer - fee) * 0.95).toFixed(8)} from ${this.wallet.address} was successfull`)
-      } catch (err) {
+        this.wallet.total_success_deposit = this.wallet.total_success_deposit + parseFloat(Number((amountToTransfer - fee)).toFixed(8))
 
-        console.error("error occurred whill depositing asset to master address for wallet with id ", this.wallet.id, " currency ", this.wallet.currency)
+        this.wallet.total_fee_pay = this.wallet.total_fee_pay + parseFloat(Number(fee).toFixed(8))
+        console.log(`deposit of ${Number((amountToTransfer - fee)).toFixed(8)} from ${this.wallet.address} was successfull`)
+      } catch (error) {
+
+        console.log(error)
+        console.error("error occurred whill depositing asset to master address for wallet with id ",this.wallet.id," currency ",this.wallet.currency)
+      
       }
 
       let { id = null, txId = null, completed = null } = res
@@ -238,10 +250,11 @@ class ETHWallet extends WalletInterface {
         const object = await ManagerTransaction.create({
           address: payload?.to,
           fee: fee,
+          crypto: payload?.currency,
           quantity: Number(amountToTransfer),
           type: TRANSACTION_TYPES.DEBIT,
           status: TRANSACTION_STATUS.ACTIVE,
-          reason: TRANSACTION_REASON.WITHDRAWAL,
+          reason: TRANSACTION_REASON.MANAGER_WITHDRAWAL,
           metadata: { txId, completed }
         });
 
@@ -263,7 +276,7 @@ class ETHWallet extends WalletInterface {
    *
    * @returns {Promise<Any>} address
    */
-  async withdrawToAddress({ amount, address, wallet }) {
+  async withdrawToAddress({ amount, address }) {
 
     let { mnemonic, signatureId, masterAddress } = await this.getWalletKeys()
     this.wallet = await this.wallet.updateBalance()
@@ -302,29 +315,26 @@ class ETHWallet extends WalletInterface {
       }, { transaction: t })
 
 
-      let chargeWallets, from;
-      chargeWallets = {};
-
-
       let ref = uuidv4();
-
-      chargeWallets =
-        (await this.wallet.getWalletsForTransactionFee({ amount })) || {};
-      await this.wallet.createTransaction(
-        {
-          reference: ref,
-          quantity: Number(chargeWallets.TRANSACTION.fee),
-          type: TRANSACTION_TYPES.DEBIT,
-          status: TRANSACTION_STATUS.ACTIVE,
-          reason: TRANSACTION_REASON.FEES,
-        },
-        { transaction: t }
-      );
+      let chargeWallets = (await this.wallet.getWalletsForTransactionFee({ amount })) || {};
+      const fee_charge = (chargeWallets.WITHDRAWAL && chargeWallets.WITHDRAWAL.fee) ? chargeWallets.WITHDRAWAL.fee : 0;
+      if(fee_charge > 0){
+        await this.wallet.createTransaction(
+          {
+            reference: ref,
+            quantity: Number(fee_charge),
+            type: TRANSACTION_TYPES.DEBIT,
+            status: TRANSACTION_STATUS.ACTIVE,
+            reason: TRANSACTION_REASON.FEES,
+          },
+          { transaction: t }
+        );
+      }
 
       await this.wallet.updateBalance()
       console.log("deposit completed")
       return transaction
-
+      
     })
 
   }

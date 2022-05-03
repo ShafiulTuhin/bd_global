@@ -41,6 +41,7 @@ live
 # CLIENT & STATIC
 /client/public/media/*
 static/media/*
+static/
 
 # SERVER
 server/views/media/*

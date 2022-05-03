@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 module.exports = (server) => {
-  const { boom } = server.app;
+  const { boom, consts: { SUPPORTED_TOKENS}, } = server.app;
   return {
     _common() {
       return {
@@ -45,6 +45,10 @@ module.exports = (server) => {
         offset: Joi.any()
           .allow(Joi.string(), Joi.number())
           .error(boom.badRequest),
+
+          currency: Joi.string()
+          .valid(...Object.keys(SUPPORTED_TOKENS))
+          .error(boom.badRequest(`<currency::string> is invalid`)),
       };
     },
     // CREATE ------------------------------------------------
@@ -131,8 +135,9 @@ module.exports = (server) => {
         payload: Joi.object().keys({
           amount: this._common()?.amount.required(new Error("amount is required")),
           from: this._common()?.address.required(new Error("from (address of the sender) is required")),
-          to: this._common()?.address.required(new Error("from (address of the sender) is required")),
+          to: this._common()?.address.required(new Error("from (address of the sender) is required")),          
           destinationTag: this._common()?.destinationTag.optional(),
+          currency: this._common()?.address.required(new Error("currency is required")),
         }),
       };
     },

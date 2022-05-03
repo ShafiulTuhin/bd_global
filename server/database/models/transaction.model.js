@@ -143,7 +143,7 @@ module.exports = (sequelize, DataTypes) => {
       paranoid: true,
       tableName: TABLE_NAMES?.TRANSACTION || "tbl_trxs",
       hooks,
-      deletedAt: "archived_at",
+      deletedAt: "archivedAt",
     }
   );
   return Transaction;

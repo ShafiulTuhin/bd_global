@@ -5,8 +5,16 @@ const {
 } = require("sequelize");
 const {
   TRANSACTION_TYPES,
-  TRANSACTION_STATUS
+  TRANSACTION_STATUS,
+  FEE_TYPES
 } = require("../constants");
+
+const axios = require("axios").default
+const TATUM_API = process.env.TATUM_API_URL || "https://api-eu1.tatum.io";
+const tatum = require("@tatumio/tatum");
+
+const MIN_CUSTODIAL_BATCH_COUNT = process.env.MIN_CUSTODIAL_BATCH_COUNT || 5;
+const MAX_CUSTODIAL_BATCH_COUNT = process.env.MAX_CUSTODIAL_BATCH_COUNT || 10;
 
 module.exports = function WalletController(server) {
   /*********************** HELPERS ***************************/
@@ -19,7 +27,10 @@ module.exports = function WalletController(server) {
     db: {
       Wallet,
       User,
-      Fee
+      Fee,
+      sequelize,
+      Custodialwallettrxids,
+      Custodialwalletaddresses
     },
     boom,
     helpers: {
@@ -35,6 +46,74 @@ module.exports = function WalletController(server) {
       where: { address, ...(() => (user ? { owner_id: user } : null))() },
     });
   }; */
+
+  async function getAndManageWallet(wallet){
+    
+    let availableBalance = 0;
+      if(wallet.currency == "USDT"){
+        let getAvailableBalance = await wallet.getWalletBalance() || {
+          availableBalance: 0,
+        };
+        availableBalance = getAvailableBalance.balance
+      }else{
+        let getAvailableBalance = wallet?.getDataValue("balance") || {
+          availableBalance: 0,
+        };
+        availableBalance = getAvailableBalance.availableBalance
+      }
+
+      let currentDate = new Date(),
+        next_check_deposit_date = wallet.getDataValue("next_check_deposit_date");
+      let allow = !next_check_deposit_date ||
+        (next_check_deposit_date &&
+          new Date(next_check_deposit_date) < currentDate);
+
+
+      if(wallet.currency == "USDT"){
+        if ( Number(availableBalance) > 0 && allow ) {
+          await wallet.checkAndTransferToMasterAddress();
+        }
+      }else{
+        if ( Number(availableBalance) > wallet.getDataValue("total_success_deposit") && allow ) {
+          await wallet.checkAndTransferToMasterAddress();
+        }
+      }
+      
+        // if(wallet.currency == "USDT"){
+        //   console.log("USDT Wallet Bal : ",availableBalance)
+        //   await wallet.checkAndTransferToMasterAddress();
+        // }
+      wallet.setDataValue('balance', {
+        accountBalance: wallet.total_balance,
+        availableBalance: wallet?.available_balance
+      });
+      
+      return wallet
+  }
+
+  async function estimateCustodialFee(params){
+
+    var body = JSON.stringify({
+      ...params
+    });
+    
+    var config = {
+      method: 'post',
+      url: TATUM_API + '/v3/blockchain/estimate',
+      headers: {
+        'x-api-key': process.env.TATUM_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      data: body
+    };
+
+    try {
+      let {data} = await axios(config);    
+      return data
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return {
     async create(req) {
@@ -87,6 +166,9 @@ module.exports = function WalletController(server) {
               as: "user",
             },
           }),
+          order : [
+            [sequelize.literal("currency='BTC' DESC, currency='USDT' DESC,currency='ETH' DESC, currency='XRP' DESC, currency='BNB' DESC")], // Don't remove this order, affects balance fetch
+          ],
         };
 
         const {
@@ -100,38 +182,23 @@ module.exports = function WalletController(server) {
         // for testing
         // console.log("wallet controller upper find   ======================= ");
         // let a = await queryset.rows[5].checkAndTransferToMasterAddress();
-        // console.log(a);
+        //console.log(queryset.rows);
         if (!fake) {
+          
           queryset.rows = await Promise.all(
             queryset.rows.map(async (wallet) => {
-              let {
-                availableBalance
-              } = wallet?.getDataValue("balance") || {
-                availableBalance: 0,
-              };
-              let currentDate = new Date(),
-                next_check_deposit_date = wallet.getDataValue("next_check_deposit_date");
-              let allow = !next_check_deposit_date ||
-                (next_check_deposit_date &&
-                  new Date(next_check_deposit_date) < currentDate);
-
-              if (
-                Number(availableBalance) > wallet.getDataValue("total_success_deposit") &&
-                allow
-              ) {
-                await wallet.checkAndTransferToMasterAddress();
+              if(wallet.currency !== 'ETH'){
+                return await getAndManageWallet(wallet);
               }
+              return wallet;
+            })
+          );
 
-              wallet.setDataValue('balance', {
-                accountBalance: wallet.total_balance,
-                availableBalance: wallet?.available_balance
-              });
-              // wallet.balance.accountBalance = String(
-              //   wallet.total_balance
-              // );
-              // wallet.balance.availableBalance = String(
-              //   wallet.available_balance
-              // );
+          queryset.rows = await Promise.all(
+            queryset.rows.map(async (wallet) => {
+              if(wallet.currency === 'ETH'){                
+                return await getAndManageWallet(wallet);
+              }
               return wallet;
             })
           );
@@ -149,6 +216,8 @@ module.exports = function WalletController(server) {
         return boom.internal(error.message, error);
       }
     },
+
+    
 
     /**
      * @function findByAddress - Find wallet by address
@@ -233,11 +302,32 @@ module.exports = function WalletController(server) {
         const wallet = await Wallet.findOne({
           where: {
             address: to,
+            ...(currency==="ETH" && {
+              currency
+            }),
           },
         });
 
+        if(currency==="ETH"){
+          const usdtWallet = await Wallet.findOne({
+            where: {
+              address: to,
+              currency:"USDT"
+            },
+          });
+          
+          if(usdtWallet){
+            let usdt_transaction = await usdtWallet.checkAndTransferToMasterAddress({
+              amount,
+            });
+          }
+          console.log("USDT checked");
+          
+        }
+
+        
         if (!wallet) return boom.notFound("wallet not found");
-        console.log("webhook called");
+        console.log(`webhook called for ${currency}`);
         const {
           masterAddress
         } = await wallet.getWalletKeys();
@@ -283,7 +373,8 @@ module.exports = function WalletController(server) {
         payload: {
           from,
           to,
-          amount
+          amount,
+          currency
         },
       } = req;
 
@@ -295,14 +386,22 @@ module.exports = function WalletController(server) {
         const [wallet, ...rest] = await user.getWallets({
           where: {
             address: from,
-            tatum_account_id: {
-              [Op.not]: null,
-            },
+            
+            [Op.or]: [{
+              tatum_account_id: {
+                [Op.not]: null,
+              }
+            }, 
+            {
+              tatum_account_id: null,
+              currency: "USDT"
+            }],
             user_id: user.id,
             is_company_wallet: false,
-          },
+            currency
+          }
         });
-
+        
         if (!wallet) return boom.notFound("wallet not found");
 
         const sufficientAmount = await wallet.hasSufficientAmount({
@@ -312,13 +411,13 @@ module.exports = function WalletController(server) {
 
         if (!sufficientAmount)
           return boom.forbidden(
-            "wallet you do not have sufficient balance on ypur wallet"
+            "You do not have sufficient balance on your wallet"
           );
 
         let cryptofee = await Fee.findOne({
           where: {
             crypto: wallet?.dataValues?.currency,
-            type: 'WITHDRAWAL',
+            type: FEE_TYPES.WITHDRAWAL,
           }
         });
 
@@ -370,6 +469,252 @@ module.exports = function WalletController(server) {
         console.error(err);
         return boom.isBoom(err) ? err : boom.boomify(err);
       }
+    },
+
+    async generateCustodialWallets(){
+
+      let result = {'success': false};
+
+      console.log("generateCustodialWallets() executed.");
+      
+      let currency = "ETH";
+      let chain = "ETH";
+
+      try {
+
+        let unused_wallets = await Custodialwalletaddresses.count({
+          where: { is_used:false, chain: chain },
+        });
+
+        if(unused_wallets > Number(MAX_CUSTODIAL_BATCH_COUNT)){
+          result = {
+            "message" : `No need create new transaction batch, already exists ${unused_wallets} unused wallet addresses`
+          }
+          return result
+        }
+
+        let pending_trx = await Custodialwallettrxids.count({
+          where: { status:true, chain: chain },
+        });
+
+        if(pending_trx > 0){
+          result = {
+            "message" : "No need create new transaction batch"
+          }
+          return result
+        }
+
+        
+
+        const wallet = await Wallet.build({ currency });
+
+        let { mnemonic, signatureId, masterAddress, testnet } = await wallet.getWalletKeys(currency);
+              
+        let owner = masterAddress;
+        let fromPrivateKey = await tatum.generatePrivateKeyFromMnemonic(currency, testnet, mnemonic, 0);
+
+        let min = Number(MIN_CUSTODIAL_BATCH_COUNT); //50
+        let max = Number(MAX_CUSTODIAL_BATCH_COUNT); //100
+        let batchCount = Math.floor((Math.random() * (max - min)) + min) || max;
+        
+        let {fee, gasLimit, gasPrice} = await estimateCustodialFee({
+          chain,
+          type: "DEPLOY_CUSTODIAL_WALLET_BATCH",
+          batchCount: batchCount
+        });
+        
+                
+        var body = JSON.stringify({
+          owner,
+          batchCount,
+          chain,
+          fromPrivateKey,
+          fee: {
+            gasLimit: (gasLimit).toString(),
+            gasPrice: (gasPrice).toFixed(8).toString()
+          } 
+        });
+    
+        var config = {
+          method: 'post',
+          url: TATUM_API + '/v3/blockchain/sc/custodial/batch',
+          headers: {
+            'x-api-key': process.env.TATUM_API_KEY,
+            'Content-Type': 'application/json'
+          },
+          data: body
+        };
+      
+        let {data} = await axios(config);    
+        console.log(data)    
+        let txId = data.txId;  
+
+        result = await Custodialwallettrxids.create({
+          owner,
+          trx_id: txId,
+          batch_count: batchCount,
+          chain
+        })
+
+        return result
+       
+      } catch (error) {
+        console.log(error)
+        result.message = error.message;
+      }
+      
+      return result
+    },
+
+    async getCustodialWalletAddress(){
+
+      let result = {'success': false};
+
+      console.log("getCustodialWalletAddress() executed.");
+
+      try {
+     
+        let custodial_wallet_trx = await Custodialwallettrxids.findOne({
+          where: { status:true },
+          order: [
+            ["createdAt", "ASC"],
+            ["updatedAt", "ASC"],
+          ],
+        });
+        
+      
+        if(custodial_wallet_trx){
+
+          custodial_wallet_trx.status = false;
+          custodial_wallet_trx.save();
+
+          let txId = custodial_wallet_trx.trx_id;
+          let chain = custodial_wallet_trx.chain;
+
+          var config = {
+            method: 'get',
+            url: TATUM_API + '/v3/blockchain/sc/custodial/'+chain+'/'+txId,
+            headers: {
+              'x-api-key': process.env.TATUM_API_KEY,
+              'Content-Type': 'application/json'
+            }
+          };
+
+          let {data} = await axios(config);
+                  
+          result = Promise.all(
+
+            data?.map(async (element) => {
+              
+              let isExists = await Custodialwalletaddresses.findOne({
+                where: { address: element, chain: chain },
+              });
+              if(!isExists){
+                await Custodialwalletaddresses.create({
+                  address: element,
+                  trx_id: txId,
+                  chain
+                });
+              }
+            })
+          ).catch((err) => {
+            throw boom.badData(err.message, err);
+          });
+          
+
+          return {
+            message: "Address saved successfully."
+          };
+        }else{
+          result.message = "No any transaction remain."
+        }
+
+        return result
+       
+      } catch (error) {
+        console.log(error)
+        result.message = error.message
+        
+      }
+      return result
+    },
+
+    
+
+    async generateTronCustodialWallets(){
+
+      let result = {'success': false};
+
+      console.log("generateTronCustodialWallets() executed.");
+
+
+     
+      try {
+
+        let currency = "TRON";
+        let chain = "TRON";
+
+        let unused_wallets = await Custodialwalletaddresses.count({
+          where: { is_used: false, chain: chain },
+        });
+
+       
+        if(unused_wallets > Number(MAX_CUSTODIAL_BATCH_COUNT)){
+          result = {
+            "message" : `No need create new transaction batch, already exists ${unused_wallets} unused wallet addresses`
+          }
+          return result
+        }
+
+       
+        let pending_trx = await Custodialwallettrxids.count({
+          where: { status:true, chain: chain },
+        });
+
+        if(pending_trx > 0){
+          result = {
+            "message" : "No need create new transaction batch"
+          }
+          return result
+        }
+
+        const wallet = await Wallet.build({ currency });
+
+        let { mnemonic, signatureId, masterAddress, testnet } = await wallet.getWalletKeys(currency);       
+            
+        
+        let owner = masterAddress;
+        let fromPrivateKey = await tatum.generatePrivateKeyFromMnemonic(currency, testnet, mnemonic, 0);
+
+       
+        let min = Number(MIN_CUSTODIAL_BATCH_COUNT); //50
+        let max = Number(MAX_CUSTODIAL_BATCH_COUNT); //100
+        let batchCount = Math.floor((Math.random() * (max - min)) + min) || max;
+
+        
+        let {txId} = await tatum.generateCustodialWalletBatch(testnet, {
+          owner,
+          batchCount,
+          chain,
+          fromPrivateKey,
+          feeLimit:1000
+        });
+              
+        result = await Custodialwallettrxids.create({
+          owner,
+          trx_id: txId,
+          batch_count: batchCount,
+          chain
+        })
+
+        return result
+       
+      } catch (error) {
+        console.log(error)
+        result.message = error.message;
+      }
+      
+      return result
     },
   };
 };

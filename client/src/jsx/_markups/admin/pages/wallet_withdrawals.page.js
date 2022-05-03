@@ -20,7 +20,7 @@ function Withdrawals() {
 
   return (
     <>
-      <PageTitle activeMenu="Withdrawals" motherMenu="Wallet management" />
+      <PageTitle activeMenu="Withdrawals" motherMenu="Transaction management" />
       <header className="mb-4">
         <h3>{t("Withdrawals details")}</h3>
       </header>

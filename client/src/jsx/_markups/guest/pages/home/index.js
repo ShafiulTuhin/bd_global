@@ -81,7 +81,7 @@ export default function Home() {
                   className="wow animate__animated fadeInDown"
                   data-wow-delay="0.3s"
                 >
-                  {t("Buy & Sell your Cryptocurrency on P2PElim!")}
+                  {t("Buy & Sell your Cryptocurrency on CoinTC!")}
                 </h5>
                 <p className="wow animate__animated fadeInDown">
                   {t(
@@ -137,7 +137,7 @@ export default function Home() {
         <div className="container">
           <div className="customer_service_title text-white wow fadeInLeft">
             <h3 className="mb-1 text-white h2">
-              {t("P2PElim is a P2P exchange for everyone.")}
+              {t("CoinTC is a P2P exchange for everyone.")}
             </h3>
             <p>{t("It supports global currency.")}</p>
           </div>
@@ -151,7 +151,7 @@ export default function Home() {
                   </h6>
                   <p className="card-text">
                     {t(
-                      "P2PElim supports rapid response to problems 365 days a year."
+                      "CoinTC supports rapid response to problems 365 days a year."
                     )}
                   </p>
                 </div>
@@ -166,7 +166,7 @@ export default function Home() {
                   </h6>
                   <p className="card-text">
                     {t(
-                      "P2PElim protects your funds with both centralized and decentralized methods."
+                      "CoinTC protects your funds with both centralized and decentralized methods."
                     )}
                   </p>
                 </div>
@@ -193,7 +193,7 @@ export default function Home() {
                   <img className="mb-3 w-auto" src={comment_icon} />
                   <h6 className="card-title">{t("Trade with confidence")}</h6>
                   <p className="card-text">
-                    {t("P2PElim believes in security above everything.")}
+                    {t("CoinTC believes in security above everything.")}
                   </p>
                 </div>
               </div>
@@ -216,7 +216,7 @@ export default function Home() {
                 {t("Trade Anytime, Anywhere")}
               </p>
               <p className="lead mb-4 text-black">
-                {t("P2PElim offer you an easy and quick way to start trading.")}
+                {t("CoinTC offer you an easy and quick way to start trading.")}
               </p>
 
               <div className="col-md-12">
@@ -286,14 +286,25 @@ function RenderData({ data }) {
             {Object.keys(data.data).map((value, key) => {
               //console.log(key);
               const quote = data.data[value].quote.USD;
+              // const sparklineData = [
+              //   quote.percent_change_90d.toFixed(2),
+              //   quote.percent_change_60d.toFixed(2),
+              //   quote.percent_change_30d.toFixed(2),
+              //   quote.percent_change_7d.toFixed(2),
+              //   quote.percent_change_24h.toFixed(2),
+              //   quote.percent_change_1h.toFixed(2),
+              // ];
+
               const sparklineData = [
-                quote.percent_change_90d.toFixed(2),
-                quote.percent_change_60d.toFixed(2),
-                quote.percent_change_30d.toFixed(2),
-                quote.percent_change_7d.toFixed(2),
-                quote.percent_change_24h.toFixed(2),
-                quote.percent_change_1h.toFixed(2),
+                (quote.price-((quote.price*quote.percent_change_90d)/100)).toFixed(2),
+                (quote.price-((quote.price*quote.percent_change_60d)/100)).toFixed(2),
+                (quote.price-((quote.price*quote.percent_change_30d)/100)).toFixed(2),
+                (quote.price-((quote.price*quote.percent_change_7d)/100)).toFixed(2),
+                (quote.price-((quote.price*quote.percent_change_24h)/100)).toFixed(2),
+                (quote.price-((quote.price*quote.percent_change_1h)/100)).toFixed(2),
               ];
+
+              
               return (
                 <tr key={key}>
                   <td className="coin_name">
@@ -326,13 +337,13 @@ function RenderData({ data }) {
                   <td
                     className={
                       "24h_change " +
-                      (data.data[value].quote.USD.volume_change_24h < 0
+                      (data.data[value].quote.USD.percent_change_24h < 0
                         ? "text-red"
                         : "text-green")
                     }
                   >
                     {numeral(
-                      data.data[value].quote.USD.volume_change_24h / 100
+                      data.data[value].quote.USD.percent_change_24h / 100
                     ).format("0.00%")}
                   </td>
                   <td className="market">

@@ -68,8 +68,8 @@ class WalletInterface {
   /**
    * @returns {Promise<HDWalletKeys|XRPWalletKeys>}
    */
-  async getWalletKeys() {
-    return keys[String(this.wallet.currency).toUpperCase()];
+  async getWalletKeys(currency) {
+    return keys[String((currency || this.wallet.currency)).toUpperCase()];
   }
 
   /**
@@ -360,6 +360,15 @@ class WalletInterface {
    *
    */
   async checkAndTransferToMasterAddress() {
+    throw new Error(
+      `createTatumAccount(${this.wallet.toString()}) is not implemented`
+    );
+  }
+
+  /**
+   *
+   */
+   async getWalletBalance() {
     throw new Error(
       `createTatumAccount(${this.wallet.toString()}) is not implemented`
     );
