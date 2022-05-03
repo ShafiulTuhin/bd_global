@@ -176,6 +176,7 @@ class WalletPlugin extends WalletInterface {
      */
     const fees = await Fee.findAll({
       where: {
+        crypto: this.wallet.currency,
         type: {
           [Op.in]: [
             FEE_TYPES.TRANSACTION,
@@ -229,6 +230,7 @@ class WalletPlugin extends WalletInterface {
     const fees = await Fee.findOne({
       where: {
         type: FEE_TYPES.WITHDRAWAL,
+        crypto: this.wallet.currency
       },
     });
 
@@ -335,7 +337,8 @@ class WalletPlugin extends WalletInterface {
         },
         { transaction: t }
       );
-      if (chargeWallets?.TRANSACTION) {
+
+      if (chargeWallets?.TRANSACTION && chargeWallets.TRANSACTION.fee > 0) {
         res3 = await wallet.createTransaction(
           {
             reference: ref,
@@ -347,8 +350,9 @@ class WalletPlugin extends WalletInterface {
           { transaction: t }
         );
       }
+    
 
-      if (chargeWallets.COMMISSION) {
+      if (chargeWallets.COMMISSION && chargeWallets.COMMISSION.fee > 0) {
         res4 = await this.wallet.createTransaction(
           {
             reference: ref,
@@ -444,6 +448,13 @@ class WalletPlugin extends WalletInterface {
    */
   async checkAndTransferToMasterAddress(args) {
     return await this.#getWalletPlugin().checkAndTransferToMasterAddress(args);
+  }
+
+  /**
+   *
+   */
+   async getWalletBalance(args) {
+    return await this.#getWalletPlugin().getWalletBalance(args);
   }
 
   /**

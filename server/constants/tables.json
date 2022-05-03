@@ -25,5 +25,8 @@
   "FAQ": "tbl_faq",
   "BLOCKAGE": "tbl_blockages",
   "AIRDROPS_TRANSACTIONS": "tbl_airdrop_transactions",
-  "MANAGER_TRANSACTION":"tbl_manager_transactions"
+  "MANAGER_TRANSACTION":"tbl_manager_transactions",
+  "UNSPEND_WALLET_BALANCES":"tbl_unspend_wallet_balances",
+  "CUSTODIAL_WALLET_TRX_IDS":"tbl_custodial_wallet_trx_ids",
+  "CUSTODIAL_WALLET_ADDRESSES":"tbl_custodial_wallet_addresses"
 }

@@ -30,6 +30,7 @@ import SupportRegister from "./pages/support_register.page";
 import Airdropmanagement from "./pages/airdrop_management";
 import Airdrophistory from "./pages/airdrop_history";
 import Mainwallet from "./pages/main_wallet";
+import Mainwallettransation from "./pages/main_wallet_transaction";
 
 import SettingManagement from "./pages/setting_management";
 
@@ -118,6 +119,8 @@ const routes = [
   { url: "airdrop-history", component: Airdrophistory },
 
   { url: "main-wallet", component: Mainwallet },
+
+  { url: "main-wallet-transaction", component: Mainwallettransation },
 
   { url: "settings", component: SettingManagement }
 

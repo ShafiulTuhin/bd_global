@@ -961,29 +961,42 @@ function SetQuantityAndPayment({ next, prev, setFormData, formData }) {
 
     if (Number(formData?.min_order_qty) >= Number(formData?.max_order_qty)) {
       errors.min_order_qty =
-        "Minimum order cannot be greater than maximum order";
-      errors.max_order_qty = "Maximum order cannot be less than minimum order";
+        "Minimum order cannot be greater than or equal to maximum order";
+      errors.max_order_qty = "Maximum order cannot be less than or equal to minimum order";
     }
 
     if (!formData?.payment_methods?.length)
       errors.payment_methods = "Please select payment method";
 
     let qty_constraint = QTY_CONSTRAINTS[String(formData.fiat)?.toUpperCase()];
-    if (
-      qty_constraint &&
-      !isBetween(
-        formData?.min_order_qty,
-        qty_constraint.min,
-        qty_constraint.max
-      )
-    ) {
+
+     if (qty_constraint && (formData?.min_order_qty < qty_constraint.min)) {
       errors.min_order_qty = `Minimum order limit cannot be less then ${numeral(
         qty_constraint.min
       ).format("0,0[.]00")}`;
+    }
+
+    if (qty_constraint && (formData?.max_order_qty > qty_constraint.max)) {
       errors.max_order_qty = `Maximum order limit cannot be greater then ${numeral(
         qty_constraint.max
       ).format("0,0[.]00")}`;
     }
+
+    // if (
+    //   qty_constraint &&
+    //   !isBetween(
+    //     formData?.min_order_qty,
+    //     qty_constraint.min,
+    //     qty_constraint.max
+    //   )
+    // ) {
+    //   errors.min_order_qty = `Minimum order limit cannot be less then ${numeral(
+    //     qty_constraint.min
+    //   ).format("0,0[.]00")}`;
+    //   errors.max_order_qty = `Maximum order limit cannot be greater then ${numeral(
+    //     qty_constraint.max
+    //   ).format("0,0[.]00")}`;
+    // }
 
     setErrors(errors);
     return Boolean(!Object.keys(errors)?.length);

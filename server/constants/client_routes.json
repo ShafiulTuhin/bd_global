@@ -49,5 +49,6 @@
   "airdropManagement": "/admin/airdrop-management",
   "airdropHistory": "/admin/airdrop-history",
   "mainWallet": "/admin/main-wallet",
+  "mainWalletTransation": "/admin/main-wallet-transaction",
   "settings": "/admin/settings"
 }

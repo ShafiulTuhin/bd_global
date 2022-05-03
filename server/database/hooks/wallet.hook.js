@@ -37,27 +37,29 @@ module.exports = {
       /**
        * @type {import('../../wallet.plugin/plugins/BTC').CreateTatumAccountResponse}
        */
-      let newAccount = await (new walletPlugin())
-        .registerWallet(instance)
-        .createTatumAccount();
 
-      // You can gett account back using the following
-      /*  let acct = await Tatum.getAccountById(newAccount?.account?.id);
-      console.log({acct}) */
+      if(instance.currency !== 'USDT'){
+        let newAccount = await (new walletPlugin())
+          .registerWallet(instance)
+          .createTatumAccount();
 
-      instance["network"] =
-        instance.network || blockchain[instance.currency.toUpperCase()];
-      instance["tatum_account_id"] =
-        instance.tatum_account_id || newAccount?.account?.id;
-      
-      instance["derivation_key"] =
-        instance.derivation_key || newAccount?.address?.derivationKey;
-      instance["memo"] = instance.memo || newAccount?.address?.memo;
-      instance["destination_tag"] =
-        instance.destination_tag || newAccount?.address?.destinationTag;
-      instance["address"] = instance.address || newAccount?.address?.address;
-      instance["frozen"] = instance.frozen || newAccount?.account?.frozen;
+        // You can gett account back using the following
+        /*  let acct = await Tatum.getAccountById(newAccount?.account?.id);
+        console.log({acct}) */
 
+        instance["network"] =
+          instance.network || blockchain[instance.currency.toUpperCase()];
+        instance["tatum_account_id"] =
+          instance.tatum_account_id || newAccount?.account?.id;
+        
+        instance["derivation_key"] =
+          instance.derivation_key || newAccount?.address?.derivationKey;
+        instance["memo"] = instance.memo || newAccount?.address?.memo;
+        instance["destination_tag"] =
+          instance.destination_tag || newAccount?.address?.destinationTag;
+        instance["address"] = instance.address || newAccount?.address?.address;
+        instance["frozen"] = instance.frozen || newAccount?.account?.frozen;
+      }
       
 
       

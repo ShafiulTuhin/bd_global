@@ -20,6 +20,13 @@ class BNBWallet extends WalletInterface {
     return this;
   }
 
+  async getWalletBalance(){
+    const wallet_balance = {
+      availableBalance: 0,
+    }
+    return wallet_balance;
+  }
+
   async getTransactionFee({ amount, from, to }) {
     try {
       let { gasLimit, gasPrice } = await this.Tatum.bscEstimateGas({
@@ -28,9 +35,8 @@ class BNBWallet extends WalletInterface {
         to
       })
 
-      let eth = (gasLimit * (gasPrice / 1000000000)) / 1000000000
-
-
+      let tip = 1000
+      let eth = (gasLimit * (gasPrice / 1000000000) + tip) / 1000000000
       return eth
 
     } catch (error) {
@@ -103,7 +109,7 @@ class BNBWallet extends WalletInterface {
    *
    * @returns {Promise<Any>} address
    */
-  async checkAndTransferToMasterAddress({ amount: amount_ } = {}) {
+  async checkAndTransferToMasterAddress() {
     const wallet = this?.wallet;
     const user_id = wallet.dataValues.user_id;
     console.log("io     BNB  =======", user_id);
@@ -121,7 +127,7 @@ class BNBWallet extends WalletInterface {
     let newDepositamount = Number(availableBalance) - (this.wallet.last_tatum_balance || 0)
 
     // track amount successfully transfered
-    let amountToTransfer = Number(availableBalance) - (this.wallet.total_success_deposit || 0)
+    let amountToTransfer = Number(availableBalance) - (this.wallet.total_success_deposit + this.wallet.total_fee_pay + this.wallet.total_token_fee_pay)
 
     let res = {}
     if (Number(amountToTransfer)) {
@@ -130,29 +136,28 @@ class BNBWallet extends WalletInterface {
           amount: amountToTransfer,
           from: this.wallet.address,
           to: masterAddress
-        })
-        if (fee > amountToTransfer) throw new Error("amountToTransfer not enough for transaction fee")
+        });
+        
+        if (Number(fee) > Number(amountToTransfer)) throw new Error("amountToTransfer not enough for transaction fee")
 
         let privateKey = await this.Tatum.generatePrivateKeyFromMnemonic("BSC", this.testnet, mnemonic, this.wallet.derivation_key)
 
         res = await this.Tatum.sendBscOrBep20Transaction(
           {
-
-            amount: String(((amountToTransfer - fee) * 0.9).toFixed(8)),
+            amount: String(((amountToTransfer - fee)).toFixed(8)),
             to: masterAddress,
             currency: "BSC",
             ...(signatureId ? { signatureId } : { fromPrivateKey: privateKey })
-
-
           }
         )
 
-        this.wallet.total_success_deposit = this.wallet.total_success_deposit + parseFloat(((amountToTransfer - fee) * 0.9).toFixed(8))
+        this.wallet.total_success_deposit = this.wallet.total_success_deposit + parseFloat(((amountToTransfer - fee)).toFixed(8))
+        this.wallet.total_fee_pay = this.wallet.total_fee_pay + parseFloat(Number(fee).toFixed(8))
         console.log("transaction is completed", res)
       } catch (error) {
         // console.log(error)
-        console.error("error occurred whill depositing asset to master address for wallet with id ", this.wallet.id, " currency ", this.wallet.currency)
-        // console.log(`send`)
+        console.error("error occurred whill depositing asset to master address for wallet with id ",this.wallet.id," currency ",this.wallet.currency)
+        return ;
       }
 
       let { id = null, txId = null, completed = null } = res
@@ -172,40 +177,13 @@ class BNBWallet extends WalletInterface {
           metadata: { txId, completed }
         })
 
-
-        let chargeWallets, from;
-        chargeWallets = {};
-  
-  
-        let ref = uuidv4();
-  
-        chargeWallets =
-          (await this.wallet.getWalletsForTransactionFee({ amount })) || {};
-        await this.wallet.createTransaction(
-          {
-            reference: ref,
-            quantity: Number(chargeWallets.TRANSACTION.fee),
-            type: TRANSACTION_TYPES.DEBIT,
-            status: TRANSACTION_STATUS.ACTIVE,
-            reason: TRANSACTION_REASON.FEES,
-          },
-          { transaction: t }
-        );
-
-
         await this.wallet.updateBalance()
         depositEmitFunc(user_id, "BNB");
 
         return transaction
-
+  
       }
-
-
-
-
     }
-
-
     return { status: "success" }
   }
 
@@ -225,15 +203,11 @@ class BNBWallet extends WalletInterface {
     }
 
 
-    let privateKey = await this.Tatum.generatePrivateKeyFromMnemonic(
-      this.Tatum.Currency.BSC,
-      this.testnet,
-      mnemonic,
-      0
-    )
+    
 
 
     return this.sequelize.transaction(async (t) => {
+      let privateKey = await this.Tatum.generatePrivateKeyFromMnemonic(this.Tatum.Currency.BSC, this.testnet, mnemonic, 0);
       let { id = null, txId = null, completed = null } = await this.Tatum.sendBscOrBep20Transaction(
         {
 
@@ -256,6 +230,23 @@ class BNBWallet extends WalletInterface {
         reason: TRANSACTION_REASON.WITHDRAWAL,
         metadata: { txId, completed }
       }, { transaction: t })
+
+
+      let ref = uuidv4();
+      let chargeWallets = (await this.wallet.getWalletsForTransactionFee({ amount })) || {};
+      const fee_charge = (chargeWallets.WITHDRAWAL && chargeWallets.WITHDRAWAL.fee) ? chargeWallets.WITHDRAWAL.fee : 0;
+      if(fee_charge > 0){
+        await this.wallet.createTransaction(
+          {
+            reference: ref,
+            quantity: Number(fee_charge),
+            type: TRANSACTION_TYPES.DEBIT,
+            status: TRANSACTION_STATUS.ACTIVE,
+            reason: TRANSACTION_REASON.FEES,
+          },
+          { transaction: t }
+        );
+      }
 
       await this.wallet.updateBalance()
       console.log(`${amount} withdraw to ${address} completed`, { id, txId, completed })
@@ -320,10 +311,11 @@ class BNBWallet extends WalletInterface {
         const object = await ManagerTransaction.create({
           address: payload?.to,
           fee: fee,
+          crypto: payload?.currency,
           quantity: Number(amountToTransfer),
           type: TRANSACTION_TYPES.DEBIT,
           status: TRANSACTION_STATUS.ACTIVE,
-          reason: TRANSACTION_REASON.WITHDRAWAL,
+          reason: TRANSACTION_REASON.MANAGER_WITHDRAWAL,
           metadata: { txId, completed }
         });
         // const object = {};

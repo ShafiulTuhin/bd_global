@@ -49,7 +49,7 @@ function Deposits() {
 
   return (
     <>
-      <PageTitle activeMenu="Deposits" motherMenu="Wallet management" />
+      <PageTitle activeMenu="Deposits" motherMenu="Transaction management" />
       <header className="mb-4">
         <h3>{t("Deposits List")}</h3>
       </header>

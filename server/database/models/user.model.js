@@ -572,7 +572,7 @@ module.exports = (sequelize, DataTypes) => {
               ...opts,
               confirmationLink: confirmationLink.href,
             },
-            subject: "P2PElim - New account confirmation",
+            subject: "Cointc - New account confirmation",
             to: opts?.to,
           },
           cb
@@ -926,7 +926,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {String} phone Phone number
      * @returns
      */
-    async sendSMS(message = "Welcome to P2PElim", phone) {
+    async sendSMS(message = "Welcome to CoinTC", phone) {
       phone = phone || this?.profile?.phone;
 
       if (
@@ -1109,33 +1109,53 @@ module.exports = (sequelize, DataTypes) => {
             .map((currency) => this.createWallet({ currency }, { transaction }))
         ).then(async (data) => {
           try {
-            if (
-              !presentCurrencies.includes("USDT") &&
-              process.env.NODE_ENV != "development"
-            ) {
-              let ethWallet, payload;
-              payload = {};
-              ethWallet = data.find(
-                (wallet) => String(wallet.currency).toUpperCase() === "ETH"
-              );
-              if (ethWallet) {
-                payload = {
-                  signature_id: ethWallet.signature_id,
-                  tatum_account_id: ethWallet.tatum_account_id,
-                  memo: ethWallet.memo,
-                  mnemonic: ethWallet.mnemonic,
-                  destination_tag: ethWallet.destination_tag,
-                  derivation_key: ethWallet.derivation_key,
-                  address: ethWallet.address,
-                  network: ethWallet.network,
-                  frozen: ethWallet.frozen,
-                };
-              }
+           /* if (
+              !presentCurrencies.includes("USDT") 
+              // &&
+              // process.env.NODE_ENV != "development"
+            ) */{
 
-              await this.createWallet(
-                { currency: "USDT", ...payload },
-                { transaction }
-              );
+              const checkUSDT = await this.getWallets({
+                where: {
+                  currency: "USDT",
+                },
+              });
+             
+              if(!checkUSDT.length){   
+                
+                const Custodialwalletaddresses = sequelize.models.Custodialwalletaddresses;
+                let getCustodialWallet = await Custodialwalletaddresses.findOne({
+                  where: {
+                    is_used:false,
+                    chain:"TRON",
+                  },
+                  order: [
+                    ["createdAt", "ASC"],
+                    ["updatedAt", "ASC"],
+                  ],
+                })
+
+                if(getCustodialWallet){
+                  let ethWallet, payload;
+                  payload = {};
+                  
+                  
+                    payload = {
+                      address: getCustodialWallet.address,
+                      network: "TRC(TRC20)",
+                    };
+
+                    getCustodialWallet.is_used = true;
+                    getCustodialWallet.save();
+    
+                    await this.createWallet(
+                      { currency: "USDT", ...payload },
+                      { transaction }
+                    );
+                                    
+                }
+               
+              }
             }
             return { status: "success" };
           } catch (error) {

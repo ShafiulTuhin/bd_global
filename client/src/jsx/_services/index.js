@@ -31,7 +31,8 @@ export default class InitService {
       fee: require("./fee.service").default,
       faq: require("./faq.service").default,
       airdrop:require("./air.drop.service").default,
-      mainwallet:require("./master.wallet.service").default
+      mainwallet:require("./master.wallet.service").default,
+      mainwallettransaction:require("./mainwallettransaction.service").default
     };
 
     // LOGOUT

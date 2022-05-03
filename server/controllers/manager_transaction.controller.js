@@ -10,7 +10,7 @@ let walletPlugin = require("../../server/wallet.plugin");
  */
 function ManagerTransactionController(server) {
     const {
-        db: { Transaction, Wallet, User },
+        db: { Transaction, Wallet, User,ManagerTransaction },
         boom,
         helpers: { filters, paginator },
         io
@@ -52,9 +52,55 @@ function ManagerTransactionController(server) {
             }
         },
 
-
-
-
+        async find(req) {
+            const {
+              query,
+              pre: {
+                permission: { user, fake, sudo },
+              },
+            } = req;
+            try {
+              /* const include = validateAndFilterAssociation(
+                query?.include,
+                ["security"],
+                User
+              ); */
+              const queryFilters = await filters({
+                query,
+                //searchFields: ["user_id"],
+              });
+      
+              const options = {
+                ...queryFilters,
+                attributes: [
+                  "id",
+                  "crypto",
+                  "quantity",
+                  "address",
+                  "type",
+                  "status",
+                  "created_at",
+                  "metadata"                
+                ],
+                
+              };
+      
+              const { limit, offset } = queryFilters;
+      
+              let queryset = fake
+                ? await ManagerTransaction.FAKE(limit)
+                : await ManagerTransaction.findAndCountAll(options);
+      
+              return paginator({
+                queryset,
+                limit,
+                offset,
+              });
+            } catch (error) {
+              console.error(error);
+              return boom.internal(error.message, error);
+            }
+          },
 
     };
 }

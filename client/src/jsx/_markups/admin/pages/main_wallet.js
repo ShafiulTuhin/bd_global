@@ -352,6 +352,7 @@ const Mainwallet = ({ services, useService }) => {
 
     return (
         <>
+            <a className="btn btn-primary" href="/admin/main-wallet-transaction">History</a>
             <PageTitle activeMenu="Main Wallet" motherMenu="Transaction Management" />
             <header className="mb-4">
                 <h3>Main Wallet</h3>

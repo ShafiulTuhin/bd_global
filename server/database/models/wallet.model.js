@@ -151,18 +151,19 @@ module.exports = (sequelize, DataTypes) => {
           }
         }
       )
-
-      let creditMainTotal = await ManagerTransaction.sum(
-        "quantity",
-        {
-          where: {
-            status: TRANSACTION_STATUS.ACTIVE,
-            type: TRANSACTION_TYPES.DEBIT,
-            crypto: this.currency,
-            tag: this.destination_tag ? this.destination_tag : null,
-          }
-        }
-      )
+      let creditMainTotal = 0;
+      // let creditMainTotal = await ManagerTransaction.sum(
+      //   "quantity",
+      //   {
+      //     where: {
+      //       status: TRANSACTION_STATUS.ACTIVE,
+      //       type: TRANSACTION_TYPES.DEBIT,
+      //       reason: TRANSACTION_REASON.MANAGER_WITHDRAWAL,
+      //       crypto: this.currency,
+      //       tag: this.destination_tag ? this.destination_tag : null,
+      //     }
+      //   }
+      // )
 
 
 
@@ -413,6 +414,14 @@ module.exports = (sequelize, DataTypes) => {
         .checkAndTransferToMasterAddress(args);
     }
 
+
+    getWalletBalance = async (args = {}) => {
+      return await (new walletPlugin())
+        .registerWallet(this)
+        .registerSequelize(sequelize)
+        .getWalletBalance(args);
+    }
+
     /**
      * 
      * @param {import('../../schema/logger.metadata.schema').TRADESSchema} metadata 
@@ -554,6 +563,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         defaultValue: 0,
       },
+      total_fee_pay: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
+      total_token_fee_pay: {
+        type: DataTypes.DOUBLE,
+        defaultValue: 0,
+      },
       // create companies account
       is_company_wallet: {
         type: DataTypes.BOOLEAN,
@@ -563,6 +580,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
         defaultValue: new Date()
       },
+      last_trx: DataTypes.STRING
     },
     {
       sequelize,
@@ -570,6 +588,8 @@ module.exports = (sequelize, DataTypes) => {
       underscored: true,
       tableName: TABLE_NAMES?.WALLET || "tbl_wallets",
       hooks,
+      paranoid: true,
+      deletedAt: "archived_at",
     }
   );
   return Wallet;

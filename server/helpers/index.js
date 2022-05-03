@@ -244,7 +244,7 @@ const MailerHelpers = () => {
     // Transforms have a key value pair replacement for text in the email template
     // ejs data param
     const defaultTransforms = {
-      companyName: "P2PElim",
+      companyName: "Cointc",
       websiteAddress: "https://www.cointc.com",
       companyAddress: "...",
       companyWebSupport: `https://www.cointc.com/support`,

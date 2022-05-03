@@ -992,7 +992,8 @@ function WithdrawFund({ data, callback = () => null }) {
           from: data.address,
           to: "",
           amount: 0,
-          destinationTag:0
+          destinationTag:0,
+          currency:data.currency
         }}
         validate={(values) => {
           const errors = {};

@@ -69,7 +69,7 @@ button {
   border: 0 none;
 }
 button {
-  border: 1px solid #666;
+  /* border: 1px solid #666; */
   background-color: transparent;
   cursor: pointer;
 }

@@ -41,7 +41,7 @@ module.exports = (server) => {
             let currenctKey = await keys[`${String(query?.crypto).toUpperCase()}`]
             let { mnemonic, signatureId, masterAddress } = currenctKey
             let balance  = await tatum.btcGetBalance(masterAddress)
-            return { balance: balance.incoming,masterAddress:masterAddress}
+            return { balance: (balance.incoming - balance.outgoing),masterAddress:masterAddress}
           }
 
           if(query?.crypto == "ETH"){
@@ -62,13 +62,32 @@ module.exports = (server) => {
             return { balance: balance,masterAddress:masterAddress}
           }
 
-          if(query?.crypto == "USDT"){
+          if(query?.crypto == "USDT"){ 
+
+            let currenctKey = await keys[`${String(query?.crypto).toUpperCase()}`]
+            let { mnemonic, signatureId, masterAddress } = currenctKey
+
+            let {trc20} = await tatum.tronGetAccount(masterAddress);
+            
+            let balance = 0;
+            trc20 && trc20.map((val) => {
+              for (const [key, value] of Object.entries(val)) {
+                if(key == process.env.USDT_CONTRACT_ADDRESS){
+                  balance = value /  Math.pow(10, process.env.USDT_DIGITS)
+                }
+              }
+            });
+
+            return { balance: balance,masterAddress:masterAddress}
+
+            /*            
             let currenctKey = await keys[`${String(query?.crypto).toUpperCase()}`]
             let { mnemonic, signatureId, masterAddress } = currenctKey
             // let balance  = await tatum.ethGetAccountBalance(masterAddress)
-            let balance  = await  tatum.ethGetAccountErc20Address(masterAddress,"0xdac17f958d2ee523a2206206994597c13d831ec7")
+            let getbalance  = await  tatum.ethGetAccountErc20Address(masterAddress, process.env.USDT_CONTRACT_ADDRESS);
+            let balance = getbalance?.balance && getbalance?.balance > 0 ? (getbalance?.balance/Math.pow(10, process.env.USDT_DIGITS)) : 0.00;
             console.log(balance)
-            return { balance: balance.balance,masterAddress:masterAddress}
+            return { balance: balance,masterAddress:masterAddress}*/
           }
 
           if(query?.crypto == "BNB"){
