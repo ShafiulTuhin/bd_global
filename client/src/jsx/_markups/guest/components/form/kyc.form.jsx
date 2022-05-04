@@ -272,13 +272,13 @@ function VerifyID({ onClose = () => null }) {
 
         !user?.address
           ? address.create(address_fields).then((data) => {
-              actions.user.update({ address: data?.address });
-              return handleResponse(data, `Address created!`);
-            })
+            actions.user.update({ address: data?.address });
+            return handleResponse(data, `Address created!`);
+          })
           : address.update(address_fields).then((data) => {
-              actions.user.update({ address: address_fields });
-              return handleResponse(data, `Address updated`);
-            }),
+            actions.user.update({ address: address_fields });
+            return handleResponse(data, `Address updated`);
+          }),
       ]).catch(console.error);
 
       let uploads = await Promise.all(
@@ -807,14 +807,14 @@ function VerifyGoogleAuth(formData) {
   const [qrdata, setqrdata] = useState("");
   const [secret, setSecret] = useState("");
 
-  const [isSet,_isSet]=useState(false)
+  const [isSet, _isSet] = useState(false)
 
 
   if (
     formData.initialValues.isSetDone &&
     typeof (formData.initialValues.isSetDone === "function")
   ) {
-   formData.initialValues.isSetDone(isSet);
+    formData.initialValues.isSetDone(isSet);
   }
 
 
@@ -945,7 +945,7 @@ function VerifyGoogleAuth(formData) {
 
   useEffect(() => {
     const secret = speakeasy.generateSecret({
-      name: "COINTC",
+      name: "Gines Global",
     });
     qrcode.toDataURL(secret.otpauth_url, (err, data) => {
       setqrdata(data);

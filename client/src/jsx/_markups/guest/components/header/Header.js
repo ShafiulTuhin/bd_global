@@ -54,15 +54,14 @@ export const Header = () => {
 
   return (
     <header
-      className={`page_header fixed_header  ${
-        !scroll ? "transparent" : "dark"
-      }`}
+      className={`page_header fixed_header  ${!scroll ? "transparent" : "dark"
+        }`}
     >
       <div className="inner container ">
         <LogoContainer>
           <Link to={routeMap?.home}>
             <h1 className="hidden">메인메뉴</h1>
-            <img src={logo} alt-="CoinTC" />
+            <img src={logo} alt-="Gines Global" />
           </Link>
         </LogoContainer>
         <nav className="page_header__nav">

@@ -193,13 +193,13 @@ const MailerHelpers = () => {
   const templateDir = "templates/email";
   const mailerTemplates = {};
   const cwd = path.join(__dirname, "../");
-  const defaultSender = MAIL_FROM_ADDRESS || "Cointc <noreply@cointc.com>";
+  const defaultSender = MAIL_FROM_ADDRESS || "Gines Global <noreply@Gines Global.com>";
 
   // get all email templates from the template directory
   let files = glob.sync(`**/*.ejs`, {
     root: cwd,
   });
-  
+
   // let files = glob.sync(`${templateDir}/*.ejs`, {
   //   root: cwd,
   // });
@@ -244,10 +244,10 @@ const MailerHelpers = () => {
     // Transforms have a key value pair replacement for text in the email template
     // ejs data param
     const defaultTransforms = {
-      companyName: "Cointc",
-      websiteAddress: "https://www.cointc.com",
+      companyName: "Gines Global",
+      websiteAddress: "https://www.Gines Global.com",
       companyAddress: "...",
-      companyWebSupport: `https://www.cointc.com/support`,
+      companyWebSupport: `https://www.Gines Global.com/support`,
     };
     // default ejs options
     const defaultOpts = {
@@ -640,7 +640,7 @@ module.exports = {
     return valid;
   },
 };
-/* 
+/*
 function renameKey(Obj, from = [], to = []) {
   from.forEach((key, idx) => {
     if (key in Obj) {

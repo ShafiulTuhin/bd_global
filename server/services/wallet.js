@@ -127,7 +127,7 @@ module.exports = {
 
 
     if (!companyWallet)
-      throw new Error(`CoinTC does not have wallet for ${from.currency}.`);
+      throw new Error(`Gines Global does not have wallet for ${from.currency}.`);
 
 
 

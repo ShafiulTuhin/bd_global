@@ -206,7 +206,7 @@ module.exports = (sequelize, DataTypes) => {
     /**
      * @returns {Promise<Model>}
      */
-    static emitAdminBulkNewWithdrawRequest = async ({ io, transaction=null, transaction_id=null }) => {
+    static emitAdminBulkNewWithdrawRequest = async ({ io, transaction = null, transaction_id = null }) => {
       const { User } = sequelize.models
       const users = User.find({
         where: {
@@ -225,7 +225,7 @@ module.exports = (sequelize, DataTypes) => {
     /**
      * @returns {Promise<Model>}
      */
-    static emitAdminBulkNewDispute = async ({ io, support_ticket=null, support_ticket_id=null }) => {
+    static emitAdminBulkNewDispute = async ({ io, support_ticket = null, support_ticket_id = null }) => {
       const { User } = sequelize.models
       const users = User.find({
         where: {
@@ -318,7 +318,7 @@ module.exports = (sequelize, DataTypes) => {
 
       io.to(room).emit("notification::new", notification);
     };
-    emitNewDispute = async ({ io,support_ticket=null,support_ticket_id=null,t=null }) => { 
+    emitNewDispute = async ({ io, support_ticket = null, support_ticket_id = null, t = null }) => {
       let { Notification } = sequelize.models;
 
       let status = support_ticket_id || support_ticket;
@@ -348,7 +348,7 @@ module.exports = (sequelize, DataTypes) => {
 
       io.to(room).emit("notification::new", notification);
     };
-    emitWithdrawApproveOrDisapprove = async ({ io,transaction=null,transaction_id=null,t,message="withdraw has been approved" }) => { 
+    emitWithdrawApproveOrDisapprove = async ({ io, transaction = null, transaction_id = null, t, message = "withdraw has been approved" }) => {
       let { Notification } = sequelize.models;
 
       let status = transaction_id || transaction;
@@ -437,7 +437,7 @@ module.exports = (sequelize, DataTypes) => {
       let room = this.getNotificationRoom();
       let notification = await Notification.create(
         {
-          room:null,
+          room: null,
           message: `New kyc Request`,
           type: NOTIFICATION_TYPE.ADMINKYC,
           link: `/admin/user-kyc-management`,
@@ -477,20 +477,20 @@ module.exports = (sequelize, DataTypes) => {
         throw boom.internal("error will sending notification for new kyc");
       }
 
-       await sequelize.transaction(async (t) => {
+      await sequelize.transaction(async (t) => {
         let notification = await Notification.create(
           {
-            room:null,
+            room: null,
             message: `new withdrawal request from ${user?.dataValues?.profile?.pname}`,
             type: NOTIFICATION_TYPE.ADMINWITHDRAWAL,
             link: `/admin/transaction-withdrawals`,
           },
-          { transaction:t }
+          { transaction: t }
         );
 
         io.emit("notification::adminnewwithdraw", notification);
       })
-      
+
     };
 
 
@@ -508,7 +508,7 @@ module.exports = (sequelize, DataTypes) => {
 
 
 
-    
+
     emitNewMessage = async ({ io, user_id, order_id, transaction = null }) => {
       let { Notification, Profile } = sequelize.models;
 
@@ -572,7 +572,7 @@ module.exports = (sequelize, DataTypes) => {
               ...opts,
               confirmationLink: confirmationLink.href,
             },
-            subject: "Cointc - New account confirmation",
+            subject: "Gines Global - New account confirmation",
             to: opts?.to,
           },
           cb
@@ -926,7 +926,7 @@ module.exports = (sequelize, DataTypes) => {
      * @param {String} phone Phone number
      * @returns
      */
-    async sendSMS(message = "Welcome to CoinTC", phone) {
+    async sendSMS(message = "Welcome to Gines Global", phone) {
       phone = phone || this?.profile?.phone;
 
       if (
@@ -1120,14 +1120,14 @@ module.exports = (sequelize, DataTypes) => {
                   currency: "USDT",
                 },
               });
-             
-              if(!checkUSDT.length){   
-                
+
+              if (!checkUSDT.length) {
+
                 const Custodialwalletaddresses = sequelize.models.Custodialwalletaddresses;
                 let getCustodialWallet = await Custodialwalletaddresses.findOne({
                   where: {
-                    is_used:false,
-                    chain:"TRON",
+                    is_used: false,
+                    chain: "TRON",
                   },
                   order: [
                     ["createdAt", "ASC"],
@@ -1135,26 +1135,26 @@ module.exports = (sequelize, DataTypes) => {
                   ],
                 })
 
-                if(getCustodialWallet){
+                if (getCustodialWallet) {
                   let ethWallet, payload;
                   payload = {};
-                  
-                  
-                    payload = {
-                      address: getCustodialWallet.address,
-                      network: "TRC(TRC20)",
-                    };
 
-                    getCustodialWallet.is_used = true;
-                    getCustodialWallet.save();
-    
-                    await this.createWallet(
-                      { currency: "USDT", ...payload },
-                      { transaction }
-                    );
-                                    
+
+                  payload = {
+                    address: getCustodialWallet.address,
+                    network: "TRC(TRC20)",
+                  };
+
+                  getCustodialWallet.is_used = true;
+                  getCustodialWallet.save();
+
+                  await this.createWallet(
+                    { currency: "USDT", ...payload },
+                    { transaction }
+                  );
+
                 }
-               
+
               }
             }
             return { status: "success" };

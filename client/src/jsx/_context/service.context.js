@@ -32,7 +32,7 @@ export default function ServiceContextProvider(props) {
   const [socket, setSocket] = useState(null)
   const { user: userAction } = actions;
   useEffect(() => {
-    if(session){
+    if (session) {
       let newService = new Services(
         {
           token: session?.user?.token || "",
@@ -50,11 +50,11 @@ export default function ServiceContextProvider(props) {
         });
       });
       setSocket(socket);
-  }
+    }
   }, [session]);
 
   if (!socket)
-    return <CircularProgress color="primary" /> 
+    return <CircularProgress color="primary" />
   return (
     <ServiceContext.Provider
       value={{
@@ -65,8 +65,8 @@ export default function ServiceContextProvider(props) {
         actions,
         helpers,
         useService,
-        appName: "Cointc",
-        appURL: "http://www.cointc.xyz",
+        appName: "Gines Global",
+        appURL: "http://www.Gines Global.xyz",
         UIColors,
         socket
       }}

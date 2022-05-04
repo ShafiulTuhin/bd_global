@@ -32,7 +32,7 @@ export const Header3 = () => {
       <div className="inner d-flex clear">
         <LogoContainer>
           <a href="/">
-            <img src={logo_icon} alt-="CoinTC" />
+            <img src={logo_icon} alt-="Gines Global" />
           </a>
         </LogoContainer>
         <nav>
@@ -42,8 +42,8 @@ export const Header3 = () => {
               <li
                 className={
                   cur_loc === routeMap?.advert ||
-                  cur_loc === routeMap?.createOffer ||
-                  cur_loc === routeMap?.addPayment
+                    cur_loc === routeMap?.createOffer ||
+                    cur_loc === routeMap?.addPayment
                     ? "on"
                     : ""
                 }

@@ -10,138 +10,138 @@ const tatum = require("@tatumio/tatum");
   user_id = '086d48d9-24bf-4720-bf67-f41dd5d7553c'
  */
 
-  
-  
-    
-class OffChain{
+
+
+
+class OffChain {
+  /**
+   * 
+   * @param {axios} axios 
+   */
+  constructor(axios) {
+    this.axios = axios
+    this.baseURL = "/offchain"
+  }
+
+
+  /**
+   * 
+   * @param {Object} args
+   * @param {Object} args.id account id
+   * @returns {Promise}
+   */
+  async createNewDepositAddress(args) {
+    const { id } = args
+
+    return this.axios.request({
+      url: `${this.baseURL}/account/${id}/`,
+      method: "POST",
+    })
+  }
+
+  /**
+   * 
+   * @param {Object} args
+   * @param {Object} args.id account id
+   * @returns {Promise}
+   */
+  async getAllDepositAddressForAccount(args) {
+    const { id } = args
+
+    return this.axios.request({
+      url: `${this.baseURL}/account/${id}/address`,
+      method: "GET",
+    })
+  }
+
+  /**
+   * 
+   * @param {Object} args
+   * @param {Object} args.id account id
+   * @param {Object} args.address address
+   * @returns {Promise}
+   */
+  async removeAddressFromAccount(args) {
+    const { id, address } = args
+
+    return this.axios.request({
+      url: `${this.baseURL}/account/${id}/address/${address}/`,
+      method: "DELETE",
+    })
+  }
+
+
+  /**
+   * 
+   * @param {Object} args
+   * @param {Object} args.id account id
+   * @param {Object} args.address address
+   * @returns {Promise}
+   */
+  async assignAddressForAccount(args) {
+    const { id, address } = args
+
+    return this.axios.request({
+      url: `${this.baseURL}/account/${id}/address/${address}/`,
+      method: "POST",
+    })
+  }
+
+
+
+  /**
+   * 
+   * @param {Object} args
+   * @param {tatum.TransferBtcBasedOffchainKMS} args.data
+   * @returns {Promise<tatum.SignatureId>}
+   */
+  async sendBitcoinFromAccount(args) {
+    const { data } = args
+
+    return this.axios.request({
+      url: `${this.baseURL}/bitcoin/transfer/`,
+      method: "POST",
+      data
+    })
+  }
+
+
+  /**
+   * supported chain
+   * BTC,
+   * ETH,
+   * USDT,
+   * XRP
+   * EOS
+   * 
+   * @param {Object} param
+   * @param {tatum.Currency} param.currency
+   * @param {Object} param.data
+   */
+  async blockchainTransfer({ currency, data }) {
+
     /**
-     * 
-     * @param {axios} axios 
+     
      */
-    constructor(axios){
-        this.axios = axios
-        this.baseURL = "/offchain"
+    let types = {
+      [tatum.Currency.BTC]: 'bitcoin',
+      [tatum.Currency.ETH]: 'ethereum',
+      // [tatum.Currency.USDT]:'ethereum',
+      [tatum.Currency.XRP]: 'xrp',
+      // [tatum.Currency.EOS]:'xrp',
     }
+    let type = types[currency]
+    if (!type) throw new Error(currency + " is not a support currency for tatum api")
 
 
-    /**
-     * 
-     * @param {Object} args
-     * @param {Object} args.id account id
-     * @returns {Promise}
-     */
-     async createNewDepositAddress(args){
-        const {id} = args
-        
-        return this.axios.request({
-            url:`${this.baseURL}/account/${id}/`,
-            method:"POST",
-        })
-    }
 
-    /**
-     * 
-     * @param {Object} args
-     * @param {Object} args.id account id
-     * @returns {Promise}
-     */
-     async getAllDepositAddressForAccount(args){
-        const {id} = args
-        
-        return this.axios.request({
-            url:`${this.baseURL}/account/${id}/address`,
-            method:"GET",
-        })
-    }
+    return this.axios.request({
+      url: `${this.baseURL}/${type}/transfer/`,
+      method: "POST",
+      data
+    })
 
-    /**
-     * 
-     * @param {Object} args
-     * @param {Object} args.id account id
-     * @param {Object} args.address address
-     * @returns {Promise}
-     */
-     async removeAddressFromAccount(args){
-        const {id,address} = args
-        
-        return this.axios.request({
-            url:`${this.baseURL}/account/${id}/address/${address}/`,
-            method:"DELETE",
-        })
-    }
-
-
-    /**
-     * 
-     * @param {Object} args
-     * @param {Object} args.id account id
-     * @param {Object} args.address address
-     * @returns {Promise}
-     */
-     async assignAddressForAccount(args){
-        const {id,address} = args
-        
-        return this.axios.request({
-            url:`${this.baseURL}/account/${id}/address/${address}/`,
-            method:"POST",
-        })
-    }
-
-    
-
-    /**
-     * 
-     * @param {Object} args
-     * @param {tatum.TransferBtcBasedOffchainKMS} args.data
-     * @returns {Promise<tatum.SignatureId>}
-     */
-     async sendBitcoinFromAccount(args){
-        const {data} = args
-        
-        return this.axios.request({
-            url:`${this.baseURL}/bitcoin/transfer/`,
-            method:"POST",
-            data
-        })
-    }
-
-    
-    /**
-     * supported chain
-     * BTC,
-     * ETH,
-     * USDT,
-     * XRP
-     * EOS
-     * 
-     * @param {Object} param
-     * @param {tatum.Currency} param.currency
-     * @param {Object} param.data
-     */
-    async blockchainTransfer({currency,data}){
-        
-        /**
-         
-         */
-        let types = {
-            [tatum.Currency.BTC]:'bitcoin',
-            [tatum.Currency.ETH]:'ethereum',
-            // [tatum.Currency.USDT]:'ethereum',
-            [tatum.Currency.XRP]:'xrp',
-            // [tatum.Currency.EOS]:'xrp',
-        }
-        let type = types[currency]
-        if(!type) throw new Error(currency+" is not a support currency for tatum api")
-
-        
-        
-        return this.axios.request({
-            url:`${this.baseURL}/${type}/transfer/`,
-            method:"POST",
-            data
-        })
-
-    }
+  }
 }
 
 class Ledger {
@@ -266,7 +266,7 @@ class Ledger {
 
 /**
  * this client is ment to intract with the api while the wallet service is use to
- * to create methods to interface between the api client and coinTC
+ * to create methods to interface between the api client and Gines Global
  */
 
 class TatumAPI {

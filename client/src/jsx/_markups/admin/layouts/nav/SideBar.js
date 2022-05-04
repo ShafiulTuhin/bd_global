@@ -74,15 +74,14 @@ const SideBar = () => {
 
   return (
     <div
-      className={`deznav ${iconHover} ${
-        sidebarposition.value === "fixed" &&
-        sidebarLayout.value === "horizontal" &&
-        headerposition.value === "static"
+      className={`deznav ${iconHover} ${sidebarposition.value === "fixed" &&
+          sidebarLayout.value === "horizontal" &&
+          headerposition.value === "static"
           ? scrollPosition > 120
             ? "fixed"
             : ""
           : ""
-      }`}
+        }`}
     >
       <PerfectScrollbar className="deznav-scroll">
         {/* <MainProfile>
@@ -103,15 +102,14 @@ const SideBar = () => {
             return (
               <li
                 key={`sidebar_routes_${name}_${index}`}
-                className={`${
-                  embedded.length
+                className={`${embedded.length
                     ? embedded.includes(pathname)
                       ? "mm-active"
                       : ""
                     : pathname === path
-                    ? "mm-active"
-                    : ""
-                }`}
+                      ? "mm-active"
+                      : ""
+                  }`}
               >
                 <Link
                   className={`${embedded.length ? "has-arrow ai-icon" : ""} `}
@@ -122,7 +120,7 @@ const SideBar = () => {
                   }
                   style={{
                     display: "flex",
-                    gap:8
+                    gap: 8
                   }}
                 >
                   <i className={icon}></i>
@@ -137,9 +135,8 @@ const SideBar = () => {
                       return (
                         <li key={`${name}_${data.path}_${_index}`}>
                           <Link
-                            className={`${
-                              pathname === data.path ? "mm-active" : ""
-                            } text-capitalize`}
+                            className={`${pathname === data.path ? "mm-active" : ""
+                              } text-capitalize`}
                             to={$path.normalize(`/admin/${data.path}`)}
                           >
                             {t(data.name).replace(/[-]/gi, " ")}
@@ -156,7 +153,7 @@ const SideBar = () => {
 
         <div className="copyright">
           <p>
-            <strong>CoinTC </strong> © {t("2021 All Rights Reserved")}
+            <strong>Gines Global </strong> © {t("2021 All Rights Reserved")}
           </p>
           {/* <p className="fs-12">
                 Made with <span className="heart"></span> by DexignZone

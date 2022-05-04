@@ -88,7 +88,7 @@ function OrderController(server) {
               );
             let seller_id =
               String(ad.type)?.toLowerCase() ===
-              String(TRADE_TYPES?.SELL)?.toLowerCase()
+                String(TRADE_TYPES?.SELL)?.toLowerCase()
                 ? ad.user_id
                 : user.id;
 
@@ -109,7 +109,7 @@ function OrderController(server) {
             //   String(TRADE_TYPES?.BUY)?.toLowerCase()
             // ) {
 
-            //   /*  TODO: ERROR: TypeError: Cannot destructure property 'Fee' of 'sequelize.models' as it is undefined.\n    at WalletPlugin.getTotalCharges (/home/lil-armstrong/Desktop/project/cointc/code/server/wallet.plugin/index.js:43:13)\n    at WalletPlugin.hasSufficientAmount (/home/lil-armstrong/Desktop/project/cointc/code/server/wallet.plugin/index.js:189:32)\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\n    at async Wallet.hasSufficientAmount (/home/lil-armstrong/Desktop/project/cointc/code/server/database/models/wallet.model.js:149:14)\n    at async create (/home/lil-armstrong/Desktop/project/cointc/code/server/controllers/order.controller.js:84:30)\n    at async exports.Manager.execute (/home/lil-armstrong/Desktop/project/cointc/code/server/node_modules/@hapi/hapi/lib/toolkit.js:60:28)\n    at async Object.internals.handler (/home/lil-armstrong/Desktop/project/cointc/code/server/node_modules/@hapi/hapi/lib/handler.js:46:20)\n    at async exports.execute (/home/lil-armstrong/Desktop/p… … */
+            //   /*  TODO: ERROR: TypeError: Cannot destructure property 'Fee' of 'sequelize.models' as it is undefined.\n    at WalletPlugin.getTotalCharges (/home/lil-armstrong/Desktop/project/Gines Global/code/server/wallet.plugin/index.js:43:13)\n    at WalletPlugin.hasSufficientAmount (/home/lil-armstrong/Desktop/project/Gines Global/code/server/wallet.plugin/index.js:189:32)\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\n    at async Wallet.hasSufficientAmount (/home/lil-armstrong/Desktop/project/Gines Global/code/server/database/models/wallet.model.js:149:14)\n    at async create (/home/lil-armstrong/Desktop/project/Gines Global/code/server/controllers/order.controller.js:84:30)\n    at async exports.Manager.execute (/home/lil-armstrong/Desktop/project/Gines Global/code/server/node_modules/@hapi/hapi/lib/toolkit.js:60:28)\n    at async Object.internals.handler (/home/lil-armstrong/Desktop/project/Gines Global/code/server/node_modules/@hapi/hapi/lib/handler.js:46:20)\n    at async exports.execute (/home/lil-armstrong/Desktop/p… … */
             //   }
 
             const status = await sellersWallet.hasSufficientAmount({
@@ -131,11 +131,11 @@ function OrderController(server) {
             //     type: 'TRANSFER',
             //   }
             // });
-    
+
             // console.log("cryptofee : ",cryptofee);
             // console.log("cryptofee : ",amount);
             // return cryptofee
-            
+
             // let totalQnt;
             // if (cryptofee?.dataValues?.amount_in_percent) {
             //   totalQnt = parseFloat(parseFloat(amount) + parseFloat(cryptofee?.dataValues?.amount_in_percent))
@@ -526,8 +526,8 @@ function OrderController(server) {
 
       try {
         let fields = sudo
-            ? ["status"]
-            : ["status", "rating", "trx_id", "appeal", "remark", "media"],
+          ? ["status"]
+          : ["status", "rating", "trx_id", "appeal", "remark", "media"],
           result,
           where = {
             id,

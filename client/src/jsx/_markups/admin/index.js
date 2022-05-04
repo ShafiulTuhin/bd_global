@@ -46,7 +46,7 @@ function AdminMarkup() {
 
   useEffect(() => {
     document.body.dir = currentLanguage.dir || "ltr";
-    document.title = t("CoinTC");
+    document.title = t("Gines Global");
   }, [currentLanguage, t]);
 
   return services ? (
@@ -117,9 +117,8 @@ function AdminLayout({ children }) {
   return (
     <div
       id={`${!pagePath ? "main-wrapper" : ""}`}
-      className={`${!pagePath ? "show" : "mh100vh"}  ${
-        menuToggle ? "menu-toggle" : ""
-      }`}
+      className={`${!pagePath ? "show" : "mh100vh"}  ${menuToggle ? "menu-toggle" : ""
+        }`}
       style={{
         minHeight: "100vh",
       }}
