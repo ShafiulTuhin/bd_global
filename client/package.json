@@ -109,7 +109,7 @@
   "scripts": {
     "dev": "react-scripts  start",
     "build-only": "react-scripts build --prod",
-    "build": "react-scripts build --prod --profile && mkdir -p ../static && cp -u -r ./build/* -t ../static && rm -r ./build",
+    "build": "CI=false && export NODE_OPTIONS='--max-old-space-size=2048' && react-scripts build --prod --profile && mkdir -p ../static && cp -u -r ./build/* -t ../static && rm -r ./build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sass": "sass ./src/scss/main.scss ./src/css/style.css --source-map-urls=relative --color"
