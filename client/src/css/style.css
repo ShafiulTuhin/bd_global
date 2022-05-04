@@ -59,10 +59,10 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,500,700");
 @import url("https://fonts.googleapis.com/css?family=Nunito:400,600,700");
-@import url("./../icons/gines_global/avasta/avasta.css");
-@import url("./../icons/gines_global/themify/themify.css");
-@import url("./../icons/gines_global/simple-line/simple.css");
-@import url("./../icons/gines_global/fa/fa.css");
+@import url("./../icons/ginesglobal/avasta/avasta.css");
+@import url("./../icons/ginesglobal/themify/themify.css");
+@import url("./../icons/ginesglobal/simple-line/simple.css");
+@import url("./../icons/ginesglobal/fa/fa.css");
 @import "./../vendor/animate/animate.min.css";
 @import "./../vendor/aos/css/aos.min.css";
 @import "./../vendor/perfect-scrollbar/css/perfect-scrollbar.css";
