@@ -1,6 +1,6 @@
 // import React, { useEffect } from "react";
 import { Formik } from "formik";
-import logo from "../../../../images/svg/logo.svg";
+import logo from "../../_shared/asset/image/logo/logo.png";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
