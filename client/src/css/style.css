@@ -12871,6 +12871,10 @@ a.active {
   justify-content: center;
 }
 
+.brand-logo img {
+  width: 150px;
+}
+
 @media only screen and (max-width: 767px) {
   .nav-header .brand-logo {
     padding-left: 0;

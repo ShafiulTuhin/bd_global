@@ -2,7 +2,7 @@ import React, { Fragment, useContext, useState } from "react";
 /// React router dom
 import { Link } from "react-router-dom";
 import { ThemeContext } from "../../../../_context/theme.context";
-import LogoImg from '../../../../../images/svg/logo.svg';
+import LogoImg from '../../../_shared/images/logo.png';
 
 const NavHeader = () => {
   const [toggle, setToggle] = useState(false);
@@ -14,8 +14,7 @@ const NavHeader = () => {
       <Link to="/" className="brand-logo">
         {background.value === "dark" || navigationHader !== "color_1" ? (
           <Fragment>
-            <img src={LogoImg} alt="coninTC logo" width="100%"
-              height="70"/>
+            <img src={LogoImg} alt="coninTC logo" />
            {/*  <svg
               className="logo-abbr"
               width="50"
