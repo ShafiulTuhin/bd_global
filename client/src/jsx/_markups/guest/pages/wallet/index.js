@@ -4,6 +4,7 @@ import QRCode from "react-qr-code";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import { useTranslation } from "react-i18next";
 import { routeMap } from "../../routes";
+import { useLocation } from "react-router-dom";
 
 import { notify } from "../../../../_helpers/notify";
 import { financial } from "../../../../_helpers/utils.helper";
@@ -85,6 +86,8 @@ export default function Wallet() {
     totalInProcess: 0,
   });
   const [exchangePrices, setExchangePrices] = useState();
+  const location = useLocation()
+
 
   const {
     count,
@@ -125,6 +128,13 @@ export default function Wallet() {
       }}
     />,
   ];
+
+  useEffect(()=>{
+    if(location?.state?.tabname==="History"){
+      setActivePageTab(1)
+      return window.history.replaceState({}, "")
+    }   
+  },[])
 
   useEffect(() => {
     async function fetchAssetHistories() {
@@ -836,6 +846,7 @@ function AssetHistory({
  * @returns
  */
 function DepositFund({ data, currencies }) {
+  console.log("data::",data)
   return (
     data && (
       <Formik initialValues={{}} onSubmit={(values, { setIsSubmitting }) => { }}>
@@ -871,6 +882,7 @@ function DepositFund({ data, currencies }) {
                   justifyContent: "space-between",
                 }}
               >
+              
                 <span className="truncate">{data?.address}</span>
                 <CopyToClipboard
                   text={data?.address}

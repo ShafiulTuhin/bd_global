@@ -2,6 +2,7 @@ import React, { useState, useEffect, useReducer, useRef } from "react";
 import "./advert.style.css";
 import { Multiselect } from "multiselect-react-dropdown";
 import { isBetween } from "../../../../_helpers";
+import { useLocation } from "react-router-dom";
 // COMPONENTS
 import FiatCurrencySelector from "../../../_shared/components/input/FiatCurrencySelector.component";
 import CryptoCurrencySelector from "../../../_shared/components/input/CryptoCurrencySelector.component";
@@ -515,6 +516,8 @@ function SetPriceAndType({ next, prev, setFormData, formData }) {
   const [errors, setErrors] = useState();
   const [fixedFloat, setFixedFlot] = useState(100);
   const [isLatestPrice, setIsLatestPrice] = useState(false);
+  const location = useLocation()
+
 
   useEffect(() => {
     async function supportedFiat() {
@@ -582,6 +585,14 @@ function SetPriceAndType({ next, prev, setFormData, formData }) {
       market.abort();
     };
   }, [formData?.crypto, formData?.fiat]);
+
+  useEffect(() => {
+    if (location?.state?.type === "sell") {
+      setFormData({ type: "type", value: "sell" })
+      return window.history.replaceState({}, "")
+    }
+  }, [])
+
 
   useEffect(async () => {
     if (formData?.market_price);
@@ -1165,6 +1176,7 @@ function SetQuantityAndPayment({ next, prev, setFormData, formData }) {
             isObject={true}
             onKeyPressFn={function noRefCheck() { }}
             selectedValues={defaultPayment}
+            hidePlaceholder={(formData.payment_methods).length >= paymentMethods.length ? true : false}
             // displayValue="name"
             onRemove={function noRefCheck(selectedList, selectedItem) {
               setFormData({

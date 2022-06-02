@@ -1,8 +1,9 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback,useMemo } from "react";
 import usePaginatorHook from "../../../../_hooks/paginator.hook.js";
 import "./order.style.css";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 import { Badge, Image } from "react-bootstrap";
 
@@ -59,6 +60,8 @@ export default function Orders() {
   const [activeTab, setActiveTab] = useState(Object.keys(orderTab)[0] || null);
   const [activeStatus, setActiveStatus] = useState(null);
   const [activeScope, setActiveScope] = useState(null);
+  const location = useLocation()
+
 
   /**
    * @function buildCachedData
@@ -182,6 +185,13 @@ export default function Orders() {
     return old === changed ? { data: item } : fetchData();
   }
 
+  useMemo(()=>{
+    if(location?.state?.status==="PENDING"){
+      setActiveStatus("PENDING");
+      return window.history.replaceState({}, "")
+    }   
+  },[])
+
   const onCryptoChange = (crypto) => {
     setActiveCrypto(crypto);
   };
@@ -295,7 +305,8 @@ export default function Orders() {
                   </div>
                   <div className="">
                     <span>{t("Status")}</span>
-                    <OrderStatus onChange={onStatusChange} />
+                    <OrderStatus  onChange={onStatusChange}
+                    attributes={{value:activeStatus}} />
                   </div>
                 </div>
                 <div
