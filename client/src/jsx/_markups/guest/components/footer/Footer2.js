@@ -1,6 +1,8 @@
 import React from "react";
 import "./footer.scss";
 // import { Col, Container, Row, ListGroup,Dropdown } from "react-bootstrap";
+import { Link } from "react-router-dom";
+
 
 // Multi language
 import { useTranslation } from "react-i18next";
@@ -17,13 +19,13 @@ export const Footer2 = () => {
           >
             <dl>
               <dt>
-                <a href="/offer">{t("P2P Trade")}</a>
+              <Link to="/advert">{t("P2P Trade")}</Link>
               </dt>
               <dd>
-                <a href="#">{t("Buy")}</a>
+              <Link to="/advert/create">{t("Buy")}</Link>
               </dd>
               <dd>
-                <a href="#">{t("Sell")}</a>
+              <Link to={{ pathname:"/advert/create",state:{type:"sell",replace:true}}}>{t("Sell")}</Link>
               </dd>
             </dl>
           </div>
@@ -33,16 +35,13 @@ export const Footer2 = () => {
           >
             <dl>
               <dt>
-                <a href="/order">{t("Order")}</a>
+                <Link to="/order">{t("Order")}</Link>
               </dt>
               <dd>
-                <a href="#">{t("In progress")}</a>
+              <Link to={{ pathname:"/order" ,state:{status:"PENDING",replace:true}}}>{t("In progress")}</Link>
               </dd>
               <dd>
-                <a href="#">{t("All Orders")}</a>
-              </dd>
-              <dd>
-                <a href="#">{t("My Offers")}</a>
+              <Link to="/order">{t("All Orders")}</Link>
               </dd>
             </dl>
           </div>
@@ -52,13 +51,13 @@ export const Footer2 = () => {
           >
             <dl>
               <dt>
-                <a href="/wallet">{t("Wallet")}</a>
+                <Link to="/wallet">{t("Wallet")}</Link>
               </dt>
               <dd>
-                <a href="#">{t("Asset")}</a>
+              <Link to="/wallet">{t("Asset")}</Link>
               </dd>
               <dd>
-                <a href="#">{t("History")}</a>
+              <Link to={{ pathname: "/wallet", state: { tabname: "History", replace: true }}}>{t("History")}</Link>
               </dd>
             </dl>
           </div>
@@ -66,13 +65,13 @@ export const Footer2 = () => {
             className="col-lg-2 col-md-4 col-sm-4 wow animate__animated  fadeInLeft"
             data-wow-delay="0.5s"
           >
-            <a href="/affiliate">{t("Affiliate")}</a>
+            <Link to="/affiliate">{t("Affiliate")}</Link>
           </div>
           <div
             className="col-lg-2 col-md-4 col-sm-4 wow animate__animated  fadeInLeft"
             data-wow-delay="0.6s"
           >
-            <a href="/support">{t("Support")}</a>
+            <Link to="/support">{t("Support")}</Link>
           </div>
           <div
             className="col-lg-2 col-md-4 col-sm-4 wow animate__animated  fadeInLeft"
@@ -81,16 +80,16 @@ export const Footer2 = () => {
             <dl className="sns clear">
               <dt>{t("Community")}</dt>
               <dd className="twitter">
-                <a href="#">{t("order")}</a>
+                <Link to="#">{t("order")}</Link>
               </dd>
               <dd className="instagram">
-                <a href="#">{t("Instagram")}</a>
+                <Link to="#">{t("Instagram")}</Link>
               </dd>
               <dd className="youtube">
-                <a href="#">{t("Youtube")}</a>
+                <Link to="#">{t("Youtube")}</Link>
               </dd>
               <dd className="facebook">
-                <a href="#">{t("Facebook")} </a>
+                <Link to="#">{t("Facebook")} </Link>
               </dd>
             </dl>
           </div>
@@ -99,7 +98,7 @@ export const Footer2 = () => {
       <hr />
       <div className="col-12">
         <p className="wow animate__animated  fadeInUp" data-wow-delay="0.8s">
-          COPYRIGHT. 2021. Gines Global ALL RIGHTS RESERVED.
+          COPYRIGHT.&copy;{new Date().getFullYear()}. Gines Global ALL RIGHTS RESERVED.
         </p>
       </div>
     </footer>
