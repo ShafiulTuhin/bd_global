@@ -13,7 +13,13 @@ export function AlipayForm({ data = {}, onUpdate = () => null }) {
   return (
     <Formik
       {...{ initialValues }}
-      // validate={(values) => {}}
+      validate={(values) => {
+        const errors = {};
+        if (!values.client_id) {
+          errors.client_id = "Alipay Client ID is required";
+        }
+        return errors;
+      }}
       onSubmit={async (values, { setSubmitting }) => {
         try {
           onUpdate({ alipay: values });
@@ -45,6 +51,12 @@ export function AlipayForm({ data = {}, onUpdate = () => null }) {
             label="Alipay client ID"
             onChange={handleChange}
             defaultValue={values?.client_id} />
+
+          <small className="text-danger">
+            {errors.client_id &&
+              touched.client_id &&
+              errors.client_id}
+          </small>
 
           <Button disabled={isSubmitting} type="submit">
             {isSubmitting ? "Saving" : "Save"}

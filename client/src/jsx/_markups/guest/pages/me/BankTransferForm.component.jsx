@@ -13,13 +13,6 @@ export function BankTransferForm({ data = {}, onUpdate = () => null }) {
   const inputRef = useRef();
   const { bank_transfer = {} } = data || {};
 
-  const initialValues = {
-    bank_name: bank_transfer?.bank_name || "",
-    bank_code: bank_transfer?.bank_code || "",
-    account_name: bank_transfer?.account_name || "",
-    account_number: bank_transfer?.account_number || "",
-    currency: bank_transfer?.currency || "USD",
-  };
   const [selectedBank, setSelectedBank] = useState("");
   const [selectedBankCode, setSelectedBankCode] = useState("");
   const [showBankList, setShowBankList] = useState(false);
@@ -28,10 +21,19 @@ export function BankTransferForm({ data = {}, onUpdate = () => null }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterResultData, setFilterResultData] = useState([]);
 
+
   const onBankSelect = (bank, swift_code) => {
     setShowBankList(false);
     setSelectedBank(bank);
     setSelectedBankCode(swift_code);
+  };
+
+  const initialValues = {
+    bank_name: selectedBank || bank_transfer?.bank_name,
+    bank_code: selectedBankCode || bank_transfer?.bank_code,
+    account_name: bank_transfer?.account_name,
+    account_number: bank_transfer?.account_number,
+    currency: bank_transfer?.currency,
   };
 
   // LOAD BANK DETAILS
@@ -90,9 +92,9 @@ export function BankTransferForm({ data = {}, onUpdate = () => null }) {
   return (
     <Formik
       // {...{ initialValues }}
-      initialValues={{ bank_code: selectedBankCode, bank_name: selectedBank }}
+      initialValues={initialValues}
       // validate={(values) => {}}
-
+      enableReinitialize={true}
       validate={(values) => {
         const errors = {};
         if (!values.account_number) {
@@ -101,6 +103,16 @@ export function BankTransferForm({ data = {}, onUpdate = () => null }) {
         if (!values.account_name) {
           errors.account_name = "Account name is required";
         }
+        if (!values.currency) {
+          errors.currency = "Currency is required"
+        }
+        if (!values.bank_name) {
+          errors.bank_name = "BankName is required"
+        }
+        if (!values.bank_code) {
+          errors.bank_code = "BankCode is required"
+        }
+
         return errors;
       }}
       onSubmit={async (values, { setSubmitting }) => {
@@ -152,8 +164,13 @@ export function BankTransferForm({ data = {}, onUpdate = () => null }) {
               onChange={(e) => {
                 setSearchTerm(e.target.value);
               }}
-              defaultValue={values?.bank_name}
+              value={values?.bank_name || bank_transfer?.bank_name}
             />
+            <small className="text-danger">
+              {errors.bank_name &&
+                touched.bank_name &&
+                errors.bank_name}
+            </small>
           </div>
 
           {showBankList ? (
@@ -247,12 +264,17 @@ export function BankTransferForm({ data = {}, onUpdate = () => null }) {
                 <input
                   id="bank_code"
                   onChange={handleChange}
-                  value={selectedBankCode}
+                  value={selectedBankCode || bank_transfer?.bank_code}
                   className="form-control"
                   pattern="^[A-Za-z0-9]{8,11}$"
                   minLength={8}
                   maxLength={11}
                 />
+                <small className="text-danger">
+                  {errors.bank_code &&
+                    touched.bank_code &&
+                    errors.bank_code}
+                </small>
               </div>
 
               {/* Account name */}
@@ -306,6 +328,11 @@ export function BankTransferForm({ data = {}, onUpdate = () => null }) {
                   }}
                   onChange={(val) => setFieldValue("currency", val)}
                 />
+                <small className="text-danger">
+                  {errors.currency &&
+                    touched.currency &&
+                    errors.currency}
+                </small>
               </div>
               <Button
                 disabled={isSubmitting}

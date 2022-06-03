@@ -340,8 +340,8 @@ export default function Adverts() {
                     style={
                       activeCrypto === currency
                         ? {
-                          color: "#36f",
-                          borderBottom: "2px solid #36f",
+                          color: "#FE5194",
+                          borderBottom: "2px solid #FE5194",
                         }
                         : {}
                     }
@@ -699,11 +699,11 @@ function RenderData({
                               style={{ fontWeight: "500", flex: "1" }}
                             >
                               <span>{
-                              parseInt(advert?.available_qty)  > 0 ?
-                                (numeral(advert?.available_qty).format(
-                                  "0,0[.]00"
-                                )) : (advert?.available_qty)}
-                                {/* {numeral(advert?.available_qty).format(
+                                parseInt(advert?.available_qty) > 0 ?
+                                  (numeral(advert?.available_qty).format(
+                                    "0,0[.]00"
+                                  )) : (advert?.available_qty)}
+                                {/* {numeral(advert?.total_qty).format(
                                   "0,0[.]00"
                                 )} */}
                               </span>
@@ -1111,7 +1111,7 @@ function OfferDetail({ data = null, isOpen, onClose }) {
                             alignItems: "baseline",
                           }}
                         >
-                          <span className="h4" style={{ color: "#0059ff" }}>
+                          <span className="h4" style={{ color: "#FE5194" }}>
                             {advertData?.user?.profile?.pname}
                           </span>
                           <span>
@@ -1242,7 +1242,7 @@ function OfferDetail({ data = null, isOpen, onClose }) {
                       >
                         <small className="descr-title">{t("Available")}</small>
                         <span className="d-block">
-                          {advertData?.available_qty}{" "}
+                          {advertData?.total_qty}{" "}
                           <small className="text-muted text-uppercase">
                             {advertData?.crypto}
                           </small>
@@ -1506,7 +1506,7 @@ function OfferDetail({ data = null, isOpen, onClose }) {
                             Object.keys(errors)?.length ||
                             isSubmitting
                           }
-                          className="btn btn-primary"
+                          className="btn btn-primary pinkbtn"
                           style={{
                             flex: "auto",
                             fontWeight: "500",
@@ -1522,7 +1522,7 @@ function OfferDetail({ data = null, isOpen, onClose }) {
                         </button>
                       ) : (
                         <button
-                          className="btn btn-primary"
+                          className="btn btn-primary pinkbtn"
                           style={{ padding: "12px 25px" }}
                           onClick={() =>
                             history.push({
@@ -1538,7 +1538,7 @@ function OfferDetail({ data = null, isOpen, onClose }) {
                         </button>
                       )}
                       <button
-                        className="btn btn-link"
+                        className="btn advert_cancel_btn"
                         onClick={onClose}
                         style={{ opacity: 0.5 }}
                       >

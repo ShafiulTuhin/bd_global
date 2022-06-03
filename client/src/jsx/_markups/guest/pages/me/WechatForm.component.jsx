@@ -12,7 +12,13 @@ export function WechatForm({ data = {}, onUpdate = () => null }) {
   return (
     <Formik
       {...{ initialValues }}
-      // validate={(values) => {}}
+      validate={(values) => {
+        const errors = {};
+        if (!values.wechat_id) {
+          errors.wechat_id = "WechatId is required";
+        }
+        return errors;
+      }}
       onSubmit={async (values, { setSubmitting }) => {
         try {
           onUpdate({ wechat: values });
@@ -44,6 +50,12 @@ export function WechatForm({ data = {}, onUpdate = () => null }) {
             label="Wechat ID"
             onChange={handleChange}
             defaultValue={values?.wechat_id} />
+
+          <small className="text-danger">
+            {errors.wechat_id &&
+              touched.wechat_id &&
+              errors.wechat_id}
+          </small>
 
           <Button disabled={isSubmitting} type="submit">
             {isSubmitting ? "Saving" : "Save"}
