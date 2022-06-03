@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
 import "./advert.style.css";
 import { Multiselect } from "multiselect-react-dropdown";
-import { isBetween } from "../../../../_helpers";
 import { useLocation } from "react-router-dom";
+import { isBetween } from "../../../../_helpers";
 // COMPONENTS
 import FiatCurrencySelector from "../../../_shared/components/input/FiatCurrencySelector.component";
 import CryptoCurrencySelector from "../../../_shared/components/input/CryptoCurrencySelector.component";
@@ -552,11 +552,37 @@ function SetPriceAndType({ next, prev, setFormData, formData }) {
   useEffect(async () => {
     try {
       if (formData?.crypto && formData.fiat) {
+        if (formData?.crypto == "VKRW" && formData.fiat == "KRW") {
+          const data = {
+            VKRW: {
+              quote: {
+                KRW: {
+                  price: 1
+                }
+              }
+            }
+          }
+          setRealDataPrice(data, true);
+          return
+        }
+        if (formData?.crypto == "VKRW" && formData.fiat == "USD" || formData?.crypto == "VKRW" && formData.fiat == "JPY" || formData?.crypto == "VKRW" && formData.fiat == "CNY" || formData?.crypto == "VKRW" && formData.fiat == "EUR") {
+          const data = {
+            VKRW: {
+              quote: {
+                USD: {
+                  price: 0.01
+                }
+              }
+            }
+          }
+          setRealDataPrice(data, true);
+          return
+        }
         const { data, error, message } = await market?.coinmarketcap({
           symbol: formData?.crypto,
           convert: formData?.fiat,
         });
-
+        console.log(data);
         if (!data)
           throw new Error(error.message || message || "Network error!");
 
@@ -593,7 +619,6 @@ function SetPriceAndType({ next, prev, setFormData, formData }) {
     }
   }, [])
 
-
   useEffect(async () => {
     if (formData?.market_price);
     updatePrice(formData?.market_price);
@@ -613,7 +638,6 @@ function SetPriceAndType({ next, prev, setFormData, formData }) {
       if (thValue) {
         const quote = Object.values(thValue.quote)[0];
         const acCurrent = quote.price;
-
         if (isUpdate) {
           setIsLatestPrice(true);
         }
@@ -981,7 +1005,7 @@ function SetQuantityAndPayment({ next, prev, setFormData, formData }) {
 
     let qty_constraint = QTY_CONSTRAINTS[String(formData.fiat)?.toUpperCase()];
 
-     if (qty_constraint && (formData?.min_order_qty < qty_constraint.min)) {
+    if (qty_constraint && (formData?.min_order_qty < qty_constraint.min)) {
       errors.min_order_qty = `Minimum order limit cannot be less then ${numeral(
         qty_constraint.min
       ).format("0,0[.]00")}`;
@@ -992,22 +1016,6 @@ function SetQuantityAndPayment({ next, prev, setFormData, formData }) {
         qty_constraint.max
       ).format("0,0[.]00")}`;
     }
-
-    // if (
-    //   qty_constraint &&
-    //   !isBetween(
-    //     formData?.min_order_qty,
-    //     qty_constraint.min,
-    //     qty_constraint.max
-    //   )
-    // ) {
-    //   errors.min_order_qty = `Minimum order limit cannot be less then ${numeral(
-    //     qty_constraint.min
-    //   ).format("0,0[.]00")}`;
-    //   errors.max_order_qty = `Maximum order limit cannot be greater then ${numeral(
-    //     qty_constraint.max
-    //   ).format("0,0[.]00")}`;
-    // }
 
     setErrors(errors);
     return Boolean(!Object.keys(errors)?.length);
@@ -1088,11 +1096,11 @@ function SetQuantityAndPayment({ next, prev, setFormData, formData }) {
                   value,
                 });
               }}
-              defaultValue={formData?.total_qty}
+              defaultValue={formData?.available_qty}
             />
             <span className="field__addon">{formData.crypto}</span>
           </FieldGroup>
-          <small className="text-danger">{errors && errors?.total_qty}</small>
+          <small className="text-danger">{errors && errors?.available_qty}</small>
         </Cage>
 
         {/* Order Limit */}
@@ -1375,7 +1383,7 @@ function SetRemarksAndResponse({ next, prev, setFormData, formData }) {
         <Cage>
           <div className="d-flex flex-row-reverse justify-content-between">
             <div style={{ display: "inline-flex", gap: 10 }}>
-              <FormGroup>
+              <FormGroup className="switchbtn">
                 <FormControlLabel
                   control={
                     <AntSwitch
