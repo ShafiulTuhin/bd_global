@@ -193,7 +193,8 @@ const MailerHelpers = () => {
   const templateDir = "templates/email";
   const mailerTemplates = {};
   const cwd = path.join(__dirname, "../");
-  const defaultSender = MAIL_FROM_ADDRESS || "Gines Global <noreply@Gines Global.com>";
+  const defaultSender =
+    MAIL_FROM_ADDRESS || "Gines Global <noreply@Gines Global.com>";
 
   // get all email templates from the template directory
   let files = glob.sync(`**/*.ejs`, {

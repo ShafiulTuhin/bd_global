@@ -4,7 +4,7 @@ const config = require("dotenv").config({
   path: "../.env",
 });
 
-var cron = require('node-cron');
+var cron = require("node-cron");
 // if (env === "development") console.log({ parsedEnv: config.parsed });
 if (config.error) {
   throw config.error;
@@ -15,7 +15,11 @@ module.exports = (async () => {
 
   const {
     controllers: {
-      wallet: { generateCustodialWallets, getCustodialWalletAddress, generateTronCustodialWallets },
+      wallet: {
+        generateCustodialWallets,
+        getCustodialWalletAddress,
+        generateTronCustodialWallets,
+      },
     },
   } = server?.server?.HapiServer?.app;
 
@@ -28,17 +32,16 @@ module.exports = (async () => {
   //   generateCustodialWallets()
   // })
 
-  cron.schedule('0 * * * *', function() {
-    console.log('every hour');
-    getCustodialWalletAddress()
-  })
+  cron.schedule("0 * * * *", function() {
+    console.log("every hour");
+    getCustodialWalletAddress();
+  });
 
-  cron.schedule('0 * * * *', function() {
-    console.log('every hour');
-    generateTronCustodialWallets()
-  })
+  cron.schedule("0 * * * *", function() {
+    console.log("every hour");
+    generateTronCustodialWallets();
+  });
 
-  
   return app;
 })();
 
@@ -46,4 +49,3 @@ process.on("unhandledRejection", (err) => {
   console.error(err);
   process.exit(1);
 });
- 

@@ -16,6 +16,8 @@ import AdvertByID from "./pages/advert/id.page";
 import CreateAdvert from "./pages/advert/create.page";
 import AdvertByUserID from "./pages/advert/user.id.page";
 
+
+import Otc from "./pages/otc";
 // WALLET
 import Wallets from "./pages/wallet";
 import WalletByID from "./pages/wallet/id.page";
@@ -73,6 +75,7 @@ export const routeMap = {
   advertByUserID: "/advert/user/:id",
   createAdvert: "/advert/create",
 
+  otc: '/otc',
   // WALLET
   wallet: "/wallet",
   walletByID: "/wallet/:id",
@@ -110,6 +113,7 @@ const routes = [
   },
 
   { path: routeMap?.advert, element: Adverts, title: "Trades" },
+
   {
     path: routeMap?.createAdvert,
     auth: true,
@@ -129,6 +133,7 @@ const routes = [
     auth: true,
   },
 
+  { path: routeMap?.otc, element: Otc, title: "Trades" },
   { path: routeMap?.wallet, element: Wallets, auth: true, title: "Wallet" },
   {
     path: routeMap?.walletByID,

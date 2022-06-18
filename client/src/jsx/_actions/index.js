@@ -3,7 +3,7 @@ import user from "./user.action";
 
 const actions = {
   user,
-  service
+  service,
 };
 
 export default actions;
